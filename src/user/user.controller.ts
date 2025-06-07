@@ -13,6 +13,7 @@ export class UserController {
 
     @Get('findByEmail')
     async findUser(@Query('email') email: string) {
+        console.log('Finding user by email:', email);
         const user = await this.userInterface.findUserByEmail(email);
         if (!user) {
             throw new NotFoundException('User not found');

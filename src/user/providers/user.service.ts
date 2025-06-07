@@ -26,6 +26,7 @@ export class UserService implements UserInterface {
     }
 
     async findUserByEmail(email: string): Promise<User | null> {
+        email = email.replace("%40", "@"); // Decode email if it was encoded
         const user = await this.userModel.findOne({ email }).exec();
         if (!user) {
             throw new NotFoundException('User not found');
