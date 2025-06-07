@@ -19,8 +19,8 @@ import { JwtModule } from '@nestjs/jwt';
     },
     {
       provide: 'AuthInterface',
-      useClass: AuthService,
-    }
+      useExisting: AuthService,
+    },
   ],
   controllers: [AuthController],
   exports: [
