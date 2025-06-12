@@ -11,13 +11,33 @@ export class UserController {
         private readonly userInterface: UserInterface
     ){} 
 
-    @Get('findByEmail')
-    async findUser(@Query('email') email: string) {
-        console.log('Finding user by email:', email);
-        const user = await this.userInterface.findUserByEmail(email);
+    // @Get('findByEmail')
+    // async findUser(@Query('id') email: string) {
+    //     console.log('Finding user by email:', email);
+    //     const user = await this.userInterface.findUserByEmail(email);
+    //     if (!user) {
+    //         throw new NotFoundException('User not found');
+    //     }
+    //     return user;
+    // }
+
+    @Get('findById')
+    async findUserById(@Query('id') id: string) {
+        console.log('Finding user by ID:', id);
+        const user = await this.userInterface.findUserById(id);
         if (!user) {
             throw new NotFoundException('User not found');
         }
         return user;
+    }
+
+    @Get('findAll')
+    async findAllUsers() {
+        console.log('Finding all users');
+        const users = await this.userInterface.findAllUsers();
+        if (!users || users.length === 0) {
+            throw new NotFoundException('No users found');
+        }
+        return users;
     }
 }

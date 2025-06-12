@@ -1,7 +1,7 @@
 import { forwardRef, Inject, Injectable, RequestTimeoutException } from '@nestjs/common';
-import { SignInDto } from '../dtos/signin.dto';
-import { SignInProvider } from './signin.provider';
-import { AuthInterface } from '../interfaces/auth.interface';
+import { SignInDto } from './dtos/signin.dto';
+import { SignInProvider } from './providers/signin.provider';
+import { AuthInterface } from './interfaces/auth.interface';
 import { User } from 'src/user/user.schema';
 
 @Injectable()

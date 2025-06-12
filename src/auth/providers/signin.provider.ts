@@ -11,7 +11,7 @@ import { ConfigType } from "@nestjs/config";
 export class SignInProvider {
     constructor(
         @Inject('UserInterface')
-        private readonly userService: UserInterface,
+        private readonly userInterface: UserInterface,
 
         private readonly hashingProvider: HashingProvider,
 
@@ -22,7 +22,7 @@ export class SignInProvider {
     ){}
 
     async signIn(signInDto: SignInDto): Promise<User | null> {
-        const user = await this.userService.findUserByEmail(signInDto.email);
+        const user = await this.userInterface.findUserByEmail(signInDto.email);
 
         if (!user) {
             throw new UnauthorizedException('Invalid email or password');
@@ -56,9 +56,12 @@ export class SignInProvider {
             }
         )
 
+        const userObject = user.toObject();
+        delete userObject.password; 
+
         return {
             accessToken,
-            ...user.toObject(),
+            ...userObject,
         }
     }
 }

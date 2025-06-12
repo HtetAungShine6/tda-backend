@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { User, UserSchema } from './user.schema';
 import { AuthModule } from 'src/auth/auth.module';
 import { UserController } from './user.controller';
-import { UserService } from './providers/user.service';
+import { UserServiceImpl } from './user.service';
 import { CreateUserProvider } from './providers/create-user.provider';
 
 @Module({
@@ -19,14 +19,14 @@ import { CreateUserProvider } from './providers/create-user.provider';
     providers: [
         {
             provide: 'UserInterface',    
-            useExisting: UserService,        
+            useExisting: UserServiceImpl,        
         },
-        UserService,
+        UserServiceImpl,
         CreateUserProvider
     ],
     controllers: [UserController],
     exports: [
-        UserService,
+        UserServiceImpl,
         'UserInterface'
     ],
 })

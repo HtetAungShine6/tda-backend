@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { EmployeeModule } from './employee/employee.module';
 
 @Module({
   imports: [
@@ -29,7 +30,8 @@ import { join } from 'path';
       inject: [ConfigService],
     }),
     AuthModule,
-    UserModule
+    UserModule,
+    EmployeeModule
   ],
   controllers: [AppController],
   providers: [AppService],
