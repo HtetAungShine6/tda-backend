@@ -4,6 +4,8 @@ import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { SignInDto } from './dtos/signin.dto';
 import { UserInterface } from 'src/user/interfaces/user.interface';
 import { CreateUserDto } from 'src/user/dtos/create-user.dto';
+import { Auth } from './decorators/auth.decorator';
+import { AuthType } from './enums/auth-type.enum';
 
 @Controller('auth')
 export class AuthController {
@@ -24,6 +26,7 @@ export class AuthController {
     }
 
     @Post('signIn')
+    @Auth(AuthType.None)
     @ApiOperation({ summary: 'User Sign In' })
     @ApiBody({ type: SignInDto })
     async signIn(@Body() signInDto: any) {

@@ -2,6 +2,8 @@ import { Body, Controller, Get, Inject, NotFoundException, Post, Query } from '@
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UserInterface } from './interfaces/user.interface';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
 
 @ApiTags('User')
 @Controller('user')
@@ -32,6 +34,7 @@ export class UserController {
     }
 
     @Get('findAll')
+    @Auth(AuthType.None)
     async findAllUsers() {
         console.log('Finding all users');
         const users = await this.userInterface.findAllUsers();

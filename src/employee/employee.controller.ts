@@ -1,8 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, NotFoundException } from '@nestjs/common';
-import { CreateEmployeeDto } from './dto/create-employee.dto';
-import { UpdateEmployeeDto } from './dto/update-employee.dto';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, NotFoundException, UseGuards } from '@nestjs/common';
+import { CreateEmployeeDto } from './dtos/create-employee.dto';
+import { UpdateEmployeeDto } from './dtos/update-employee.dto';
 import { EmployeeInterface } from './interface/employee.interface';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { AuthType } from 'src/auth/enums/auth-type.enum';
 
 @ApiTags('Employee')  
 @Controller('employee')
@@ -13,6 +15,8 @@ export class EmployeeController {
   ) {}
 
   @Post()
+  @Auth(AuthType.Bearer)
+  @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Create a new employee' })
   @ApiBody({ type: CreateEmployeeDto })
   @ApiResponse({ status: 201, description: 'Employee created successfully' })
@@ -45,6 +49,8 @@ export class EmployeeController {
   }
 
   @Patch('/:id')
+  @Auth(AuthType.Bearer)
+  @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Update an employee by ID' })
   @ApiBody({ type: UpdateEmployeeDto })
   @ApiResponse({ status: 200, description: 'Employee updated successfully' })
@@ -63,6 +69,8 @@ export class EmployeeController {
   }
 
   @Delete('/:id')
+  @Auth(AuthType.Bearer)
+  @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Delete an employee by ID' })
   @ApiResponse({ status: 200, description: 'Employee deleted successfully' })
   @ApiResponse({ status: 404, description: 'Employee not found' })
@@ -71,6 +79,8 @@ export class EmployeeController {
     if (!deletedEmployee) {
       throw new NotFoundException('Employee not found');
     }
-    return deletedEmployee;
+    return {
+      message: 'Employee deleted successfully',
+    };
   }
 }

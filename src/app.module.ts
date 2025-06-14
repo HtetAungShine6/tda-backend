@@ -8,6 +8,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { EmployeeModule } from './employee/employee.module';
+import { ProductModule } from './product/product.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
+import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
+import { JwtModule } from '@nestjs/jwt';
+import jwtConfig from './auth/config/jwt.config';
 
 @Module({
   imports: [
@@ -29,11 +35,21 @@ import { EmployeeModule } from './employee/employee.module';
       }),
       inject: [ConfigService],
     }),
+    ConfigModule.forFeature(jwtConfig), 
+    JwtModule.registerAsync(jwtConfig.asProvider()),
     AuthModule,
     UserModule,
-    EmployeeModule
+    EmployeeModule,
+    ProductModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AuthenticationGuard,
+    },
+    AccessTokenGuard,
+  ],
 })
 export class AppModule {}
