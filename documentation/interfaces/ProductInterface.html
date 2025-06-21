@@ -98,7 +98,7 @@
   <li class="breadcrumb-item">Interfaces</li>
   <li class="breadcrumb-item"
   >
-  UserInterface</li>
+  ProductInterface</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -122,7 +122,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/user/interfaces/user.interface.ts</code>
+            <code>src/product/interface/product.interface.ts</code>
         </p>
 
 
@@ -141,27 +141,33 @@
                         <td class="col-md-4">
                             <ul class="index-list">
                                 <li>
-                                    <a href="#createUser" 
+                                    <a href="#createProduct" 
 >
-                                        createUser
+                                        createProduct
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#findAllUsers" 
+                                    <a href="#deleteProduct" 
 >
-                                        findAllUsers
+                                        deleteProduct
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#findUserByEmail" 
+                                    <a href="#findAllProducts" 
 >
-                                        findUserByEmail
+                                        findAllProducts
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#findUserById" 
+                                    <a href="#findProductById" 
 >
-                                        findUserById
+                                        findProductById
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#updateProduct" 
+>
+                                        updateProduct
                                     </a>
                                 </li>
                             </ul>
@@ -180,120 +186,16 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createUser"></a>
+                    <a name="createProduct"></a>
                     <span class="name">
-                        <span ><b>createUser</b></span>
-                        <a href="#createUser"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>createProduct</b></span>
+                        <a href="#createProduct"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>createUser(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="5"
-                                    class="link-to-prism">src/user/interfaces/user.interface.ts:5</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>createUserDto</td>
-                                            <td>
-                                                            <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Promise&lt;User&gt;</a></code>
-
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findAllUsers"></a>
-                    <span class="name">
-                        <span ><b>findAllUsers</b></span>
-                        <a href="#findAllUsers"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>findAllUsers()</code>
-                </td>
-            </tr>
-
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="8"
-                                    class="link-to-prism">src/user/interfaces/user.interface.ts:8</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Promise&lt;User[]&gt;</a></code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findUserByEmail"></a>
-                    <span class="name">
-                        <span ><b>findUserByEmail</b></span>
-                        <a href="#findUserByEmail"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>findUserByEmail(email: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>createProduct(createProductDto: <a href="../classes/CreateProductDto.html" target="_self">CreateProductDto</a>)</code>
                 </td>
             </tr>
 
@@ -301,7 +203,7 @@
                     <tr>
                         <td class="col-md-4">
                             <div class="io-line">Defined in <a href="" data-line="6"
-                                    class="link-to-prism">src/user/interfaces/user.interface.ts:6</a></div>
+                                    class="link-to-prism">src/product/interface/product.interface.ts:6</a></div>
                         </td>
                     </tr>
 
@@ -322,9 +224,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>email</td>
+                                                <td>createProductDto</td>
                                             <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                            <code><a href="../classes/CreateProductDto.html" target="_self" >CreateProductDto</a></code>
                                             </td>
 
                                             <td>
@@ -337,7 +239,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Promise&lt;User | null&gt;</a></code>
+                            <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;Product&gt;</a></code>
 
                         </div>
                             <div class="io-description">
@@ -351,24 +253,24 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findUserById"></a>
+                    <a name="deleteProduct"></a>
                     <span class="name">
-                        <span ><b>findUserById</b></span>
-                        <a href="#findUserById"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteProduct</b></span>
+                        <a href="#deleteProduct"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
-<code>findUserById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+<code>deleteProduct(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="7"
-                                    class="link-to-prism">src/user/interfaces/user.interface.ts:7</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="10"
+                                    class="link-to-prism">src/product/interface/product.interface.ts:10</a></div>
                         </td>
                     </tr>
 
@@ -404,7 +306,190 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>Promise&lt;Partial | null&gt;</code>
+                            <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;Product | null&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findAllProducts"></a>
+                    <span class="name">
+                        <span ><b>findAllProducts</b></span>
+                        <a href="#findAllProducts"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>findAllProducts()</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="8"
+                                    class="link-to-prism">src/product/interface/product.interface.ts:8</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;Product[]&gt;</a></code>
+
+                        </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="findProductById"></a>
+                    <span class="name">
+                        <span ><b>findProductById</b></span>
+                        <a href="#findProductById"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>findProductById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="7"
+                                    class="link-to-prism">src/product/interface/product.interface.ts:7</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;Product | null&gt;</a></code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="updateProduct"></a>
+                    <span class="name">
+                        <span ><b>updateProduct</b></span>
+                        <a href="#updateProduct"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+<code>updateProduct(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateProductDto: <a href="../classes/UpdateProductDto.html" target="_self">UpdateProductDto</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="9"
+                                    class="link-to-prism">src/product/interface/product.interface.ts:9</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                        <tr>
+                                                <td>updateProductDto</td>
+                                            <td>
+                                                            <code><a href="../classes/UpdateProductDto.html" target="_self" >UpdateProductDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>        <code><a href="../classes/Product.html" target="_self" >Promise&lt;Product | null&gt;</a></code>
 
                         </div>
                             <div class="io-description">
@@ -420,14 +505,16 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CreateUserDto } from &quot;../dtos/create-user.dto&quot;;
-import { User } from &quot;../user.schema&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { CreateProductDto } from &quot;../dtos/create-product.dto&quot;;
+import { UpdateProductDto } from &quot;../dtos/update-prodcut.dto&quot;;
+import { Product } from &quot;../product.schema&quot;;
 
-export interface UserInterface {
-    createUser(createUserDto: CreateUserDto): Promise&lt;User&gt;;
-    findUserByEmail(email: string): Promise&lt;User | null&gt;;
-    findUserById(id: string): Promise&lt;Partial&lt;User&gt; | null&gt;;
-    findAllUsers(): Promise&lt;User[]&gt;;
+export interface ProductInterface {
+    createProduct(createProductDto: CreateProductDto): Promise&lt;Product&gt;;
+    findProductById(id: string): Promise&lt;Product | null&gt;;
+    findAllProducts(): Promise&lt;Product[]&gt;;
+    updateProduct(id: string, updateProductDto: UpdateProductDto): Promise&lt;Product | null&gt;;
+    deleteProduct(id: string): Promise&lt;Product | null&gt;;
 }</code></pre>
     </div>
 </div>
@@ -465,7 +552,7 @@ export interface UserInterface {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'UserInterface.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductInterface.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

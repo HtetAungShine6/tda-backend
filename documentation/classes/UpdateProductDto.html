@@ -79,7 +79,7 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content interface">
+               <div class="content class">
                    <div class="content-data">
 
 
@@ -93,12 +93,9 @@
 
 
 
-
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Interfaces</li>
-  <li class="breadcrumb-item"
-  >
-  AuthInterface</li>
+  <li class="breadcrumb-item">Classes</li>
+  <li class="breadcrumb-item" >UpdateProductDto</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -122,124 +119,40 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/auth/interfaces/auth.interface.ts</code>
+            <code>src/product/dtos/update-prodcut.dto.ts</code>
         </p>
 
 
 
-
-        <section data-compodoc="block-index">
-            <h3 id="index">Index</h3>
-            <table class="table table-sm table-bordered index-table">
-                <tbody>
-                    <tr>
-                        <td class="col-md-4">
-                            <h6><b>Methods</b></h6>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="col-md-4">
-                            <ul class="index-list">
-                                <li>
-                                    <a href="#signIn" 
->
-                                        signIn
-                                    </a>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </section>
-
-            <section data-compodoc="block-methods">
-    
-    <h3 id="methods">
-        Methods
-    </h3>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="signIn"></a>
-                    <span class="name">
-                        <span ><b>signIn</b></span>
-                        <a href="#signIn"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-<code>signIn(signInDto: <a href="../classes/SignInDto.html" target="_self">SignInDto</a>)</code>
-                </td>
-            </tr>
+            <p class="comment">
+                <h3>Extends</h3>
+            </p>
+            <p class="comment">
+                        <code>PartialType(CreateProductDto)</code>
+            </p>
 
 
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="5"
-                                    class="link-to-prism">src/auth/interfaces/auth.interface.ts:5</a></div>
-                        </td>
-                    </tr>
 
 
-            <tr>
-                <td class="col-md-4">
-
-                            <div class="io-description">
-                                <b>Parameters :</b>
-                                
-                                <table class="params">
-                                    <thead>
-                                        <tr>
-                                            <td>Name</td>
-                                                <td>Type</td>
-                                            <td>Optional</td>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                                <td>signInDto</td>
-                                            <td>
-                                                            <code><a href="../classes/SignInDto.html" target="_self" >SignInDto</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
 
 
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        <div class="io-description">
-                            <b>Returns : </b>        <code><a href="../classes/User.html" target="_self" >Promise&lt;User | null&gt;</a></code>
 
-                        </div>
-                            <div class="io-description">
-                                
-                            </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</section>
+
+
+
+
 
     </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { User } from &quot;src/user/user.schema&quot;;
-import { SignInDto } from &quot;../dtos/signin.dto&quot;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { PartialType } from &quot;@nestjs/swagger&quot;;
+import { CreateProductDto } from &quot;./create-product.dto&quot;;
 
-export interface AuthInterface {
-    signIn(signInDto: SignInDto): Promise&lt;User | null&gt;;
-}
-</code></pre>
+export class UpdateProductDto extends PartialType(CreateProductDto){}</code></pre>
     </div>
 </div>
+
 
 
 
@@ -273,8 +186,8 @@ export interface AuthInterface {
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'interface';
-            var COMPODOC_CURRENT_PAGE_URL = 'AuthInterface.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'class';
+            var COMPODOC_CURRENT_PAGE_URL = 'UpdateProductDto.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

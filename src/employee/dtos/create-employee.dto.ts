@@ -1,5 +1,6 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { IsDateString, IsNotEmpty, IsString } from "class-validator";
+import { EmpStatus } from "../enums/emp-status.enum";
 
 export class CreateEmployeeDto {
 
@@ -22,6 +23,11 @@ export class CreateEmployeeDto {
     @IsNotEmpty()
     @IsString()
     position: string;
+
+    @ApiProperty()
+    @IsNotEmpty()
+    @IsString()
+    status: EmpStatus;
 
     @ApiProperty()
     @IsNotEmpty()

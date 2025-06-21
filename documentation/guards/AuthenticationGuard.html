@@ -79,16 +79,21 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content controller">
+               <div class="content guard">
                    <div class="content-data">
 
 
 
 
 
+
+
+
+
+
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Controllers</li>
-  <li class="breadcrumb-item" >UserController</li>
+    <li class="breadcrumb-item">Guards</li>
+    <li class="breadcrumb-item" >AuthenticationGuard</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -107,19 +112,12 @@
 </ul>
 
 <div class="tab-content">
-    <div class="tab-pane fade active in" id="info">
-        <p class="comment">
+        <div class="tab-pane fade active in" id="info">
+            <p class="comment">
             <h3>File</h3>
-        </p>
-        <p class="comment">
-            <code>src/user/user.controller.ts</code>
-        </p>
-
-            <p class="comment">
-                <h3>Prefix</h3>
             </p>
             <p class="comment">
-                <code>user</code>
+                <code>src/auth/guards/authentication/authentication.guard.ts</code>
             </p>
 
 
@@ -127,10 +125,32 @@
 
 
 
-            <section data-compodoc="block-index">
+                <section data-compodoc="block-index">
     <h3 id="index">Index</h3>
     <table class="table table-sm table-bordered index-table">
         <tbody>
+                <tr>
+                    <td class="col-md-4">
+                        <h6><b>Properties</b></h6>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="col-md-4">
+                        <ul class="index-list">
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#authTypeGuardMap" >authTypeGuardMap</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Private</span>
+                                    <span class="modifier">Static</span>
+                                    <span class="modifier">Readonly</span>
+                                <a href="#defaultAuthType" >defaultAuthType</a>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
 
                 <tr>
                     <td class="col-md-4">
@@ -141,15 +161,8 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier"></span>
-                                    <span class="modifier"></span>
                                     <span class="modifier">Async</span>
-                                <a href="#findAllUsers" >findAllUsers</a>
-                            </li>
-                            <li>
-                                    <span class="modifier"></span>
-                                    <span class="modifier">Async</span>
-                                <a href="#findUserById" >findUserById</a>
+                                <a href="#canActivate" >canActivate</a>
                             </li>
                         </ul>
                     </td>
@@ -163,7 +176,68 @@
     </table>
 </section>
 
-            <section data-compodoc="block-methods">
+                <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(reflector: Reflector, accessTokenGuard: <a href="../guards/AccessTokenGuard.html" target="_self">AccessTokenGuard</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="22" class="link-to-prism">src/auth/guards/authentication/authentication.guard.ts:22</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>reflector</td>
+                                                  
+                                                        <td>
+                                                                    <code>Reflector</code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                        <td>accessTokenGuard</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../guards/AccessTokenGuard.html" target="_self" >AccessTokenGuard</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
+                <section data-compodoc="block-methods">
     
     <h3 id="methods">
         Methods
@@ -172,82 +246,26 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findAllUsers"></a>
+                    <a name="canActivate"></a>
                     <span class="name">
-                            <span class="modifier"></span>
-                            <span class="modifier"></span>
                             <span class="modifier">Async</span>
-                        <span ><b>findAllUsers</b></span>
-                        <a href="#findAllUsers"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>canActivate</b></span>
+                        <a href="#canActivate"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findAllUsers()</code>
+                    <code>canActivate(context: ExecutionContext)</code>
                 </td>
             </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Get(&#x27;findAll&#x27;)<br />@Auth(AuthType.None)<br /></code>
-                </td>
-            </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="38"
-                                    class="link-to-prism">src/user/user.controller.ts:38</a></div>
-                        </td>
-                    </tr>
-
-
-            <tr>
-                <td class="col-md-4">
-
-                        <div class="io-description">
-                            <b>Returns : </b>    <code>unknown</code>
-
-                        </div>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <table class="table table-sm table-bordered">
-        <tbody>
-            <tr>
-                <td class="col-md-4">
-                    <a name="findUserById"></a>
-                    <span class="name">
-                            <span class="modifier"></span>
-                            <span class="modifier">Async</span>
-                        <span ><b>findUserById</b></span>
-                        <a href="#findUserById"><span class="icon ion-ios-link"></span></a>
-                    </span>
-                </td>
-            </tr>
-            <tr>
-                <td class="col-md-4">
-                        <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findUserById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
-                </td>
-            </tr>
-
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Get(&#x27;findById&#x27;)<br /></code>
-                </td>
-            </tr>
-
-                    <tr>
-                        <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="27"
-                                    class="link-to-prism">src/user/user.controller.ts:27</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/auth/guards/authentication/authentication.guard.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -268,9 +286,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>id</td>
+                                                <td>context</td>
                                             <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                                                        <code>ExecutionContext</code>
                                             </td>
 
                                             <td>
@@ -283,7 +301,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>    <code>unknown</code>
+                            <b>Returns : </b>    <code>Promise&lt;boolean&gt;</code>
 
                         </div>
                             <div class="io-description">
@@ -293,63 +311,84 @@
             </tr>
         </tbody>
     </table>
-</section>    </div>
+</section>
+        </div>
 
 
-    <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Get, Inject, NotFoundException, Post, Query } from &#x27;@nestjs/common&#x27;;
-import { CreateUserDto } from &#x27;./dtos/create-user.dto&#x27;;
-import { UserInterface } from &#x27;./interfaces/user.interface&#x27;;
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from &#x27;@nestjs/swagger&#x27;;
-import { Auth } from &#x27;src/auth/decorators/auth.decorator&#x27;;
+        <div class="tab-pane fade  tab-source-code" id="source">
+            <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
+  CanActivate,
+  ExecutionContext,
+  Injectable,
+  UnauthorizedException,
+} from &#x27;@nestjs/common&#x27;;
+
+import { AUTH_TYPE_KEY } from &#x27;src/auth/decorators/auth.decorator&#x27;;
 import { AuthType } from &#x27;src/auth/enums/auth-type.enum&#x27;;
+import { Observable } from &#x27;rxjs&#x27;;
+import { Reflector } from &#x27;@nestjs/core&#x27;;
+import { AccessTokenGuard } from &#x27;../access-token/access-token.guard&#x27;;
 
-@ApiTags(&#x27;User&#x27;)
-@Controller(&#x27;user&#x27;)
-export class UserController {
-    constructor(
-        @Inject(&#x27;UserInterface&#x27;)
-        private readonly userInterface: UserInterface
-    ){} 
+@Injectable()
+export class AuthenticationGuard implements CanActivate {
+  // Set the default Auth Type
+  private static readonly defaultAuthType &#x3D; AuthType.None;
 
-    // @Get(&#x27;findByEmail&#x27;)
-    // async findUser(@Query(&#x27;id&#x27;) email: string) {
-    //     console.log(&#x27;Finding user by email:&#x27;, email);
-    //     const user &#x3D; await this.userInterface.findUserByEmail(email);
-    //     if (!user) {
-    //         throw new NotFoundException(&#x27;User not found&#x27;);
-    //     }
-    //     return user;
-    // }
+  private readonly authTypeGuardMap: Record&lt;
+    AuthType,
+    CanActivate | CanActivate[]
+  &gt;;
 
-    @Get(&#x27;findById&#x27;)
-    async findUserById(@Query(&#x27;id&#x27;) id: string) {
-        console.log(&#x27;Finding user by ID:&#x27;, id);
-        const user &#x3D; await this.userInterface.findUserById(id);
-        if (!user) {
-            throw new NotFoundException(&#x27;User not found&#x27;);
-        }
-        return user;
+  constructor(
+    private readonly reflector: Reflector,
+    private readonly accessTokenGuard: AccessTokenGuard,
+  ) {
+    this.authTypeGuardMap &#x3D; {
+      [AuthType.Bearer]: this.accessTokenGuard,
+      [AuthType.None]: { canActivate: () &#x3D;&gt; true },
+    }
+  }
+
+  // private readonly authTypeGuardMap: Record&lt;
+  //   AuthType,
+  //   CanActivate | CanActivate[]
+  // &gt; &#x3D; {
+  //   [AuthType.Bearer]: this.accessTokenGuard,
+  //   [AuthType.None]: { canActivate: () &#x3D;&gt; true },
+  // };
+
+  async canActivate(context: ExecutionContext): Promise&lt;boolean&gt; {
+    const authTypes &#x3D; this.reflector.getAllAndOverride&lt;AuthType[]&gt;(
+      AUTH_TYPE_KEY,
+      [context.getHandler(), context.getClass()],
+    ) ?? [AuthenticationGuard.defaultAuthType];
+
+    const guards &#x3D; authTypes.map((type) &#x3D;&gt; this.authTypeGuardMap[type]).flat();
+
+    // Declare the default error
+    let error &#x3D; new UnauthorizedException();
+
+    for (const instance of guards) {
+      // Decalre a new constant
+      const canActivate &#x3D; await Promise.resolve(
+        // Here the AccessToken Guard Will be fired and check if user has permissions to acces
+        // Later Multiple AuthTypes can be used even if one of them returns true
+        // The user is Authorised to access the resource
+        instance.canActivate(context),
+      ).catch((err) &#x3D;&gt; {
+        error &#x3D; err;
+      });
+
+      if (canActivate) {
+        return true;
+      }
     }
 
-    @Get(&#x27;findAll&#x27;)
-    @Auth(AuthType.None)
-    async findAllUsers() {
-        console.log(&#x27;Finding all users&#x27;);
-        const users &#x3D; await this.userInterface.findAllUsers();
-        if (!users || users.length &#x3D;&#x3D;&#x3D; 0) {
-            throw new NotFoundException(&#x27;No users found&#x27;);
-        }
-        return users;
-    }
+    throw error;
+  }
 }</code></pre>
-    </div>
+        </div>
 </div>
-
-
-
-
-
 
 
 
@@ -386,8 +425,8 @@ export class UserController {
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
-            var COMPODOC_CURRENT_PAGE_URL = 'UserController.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'guard';
+            var COMPODOC_CURRENT_PAGE_URL = 'AuthenticationGuard.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

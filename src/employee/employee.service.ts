@@ -5,6 +5,7 @@ import { EmployeeInterface } from './interface/employee.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Employee } from './employee.schema';
 import { Model } from 'mongoose';
+import { EmpStatus } from './enums/emp-status.enum';
 
 @Injectable()
 export class EmployeeServiceImpl implements EmployeeInterface {
@@ -29,5 +30,8 @@ export class EmployeeServiceImpl implements EmployeeInterface {
   }
   deleteEmployee(id: string): Promise<Employee | null> {
     return this.employeeModel.findByIdAndDelete(id).exec();
+  }
+  async updateEmployeeStatus(id: string, status: UpdateEmployeeDto): Promise<Employee | null> {
+    return this.employeeModel.findByIdAndUpdate(id, status, { new: true }).exec();
   }
 }

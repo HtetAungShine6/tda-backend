@@ -157,7 +157,7 @@
             <tbody>
                 <tr>
                     <td class="col-md-4">
-<code>constructor(userService: <a href="../interfaces/UserInterface.html" target="_self">UserInterface</a>, hashingProvider: <a href="../injectables/HashingProvider.html" target="_self">HashingProvider</a>, jwtService: JwtService, jwtConfiguration: ConfigType<>)</code>
+<code>constructor(userInterface: <a href="../interfaces/UserInterface.html" target="_self">UserInterface</a>, hashingProvider: <a href="../injectables/HashingProvider.html" target="_self">HashingProvider</a>, jwtService: JwtService, jwtConfiguration: ConfigType<>)</code>
                     </td>
                 </tr>
                         <tr>
@@ -180,7 +180,7 @@
                                         </thead>
                                         <tbody>
                                                 <tr>
-                                                        <td>userService</td>
+                                                        <td>userInterface</td>
                                                   
                                                         <td>
                                                                         <code><a href="../interfaces/UserInterface.html" target="_self" >UserInterface</a></code>
@@ -329,7 +329,7 @@ import { ConfigType } from &quot;@nestjs/config&quot;;
 export class SignInProvider {
     constructor(
         @Inject(&#x27;UserInterface&#x27;)
-        private readonly userService: UserInterface,
+        private readonly userInterface: UserInterface,
 
         private readonly hashingProvider: HashingProvider,
 
@@ -340,7 +340,7 @@ export class SignInProvider {
     ){}
 
     async signIn(signInDto: SignInDto): Promise&lt;User | null&gt; {
-        const user &#x3D; await this.userService.findUserByEmail(signInDto.email);
+        const user &#x3D; await this.userInterface.findUserByEmail(signInDto.email);
 
         if (!user) {
             throw new UnauthorizedException(&#x27;Invalid email or password&#x27;);
@@ -374,9 +374,12 @@ export class SignInProvider {
             }
         )
 
+        const userObject &#x3D; user.toObject();
+        delete userObject.password; 
+
         return {
             accessToken,
-            ...user.toObject(),
+            ...userObject,
         }
     }
 }</code></pre>

@@ -43,6 +43,7 @@ export class UserServiceImpl implements UserInterface {
         delete userObject.password; 
         return userObject;
     }
+    
     async findAllUsers(): Promise<User[]> {
         const users = await this.userModel.find().exec();
         if (!users || users.length === 0) {

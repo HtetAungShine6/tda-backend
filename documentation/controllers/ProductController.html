@@ -88,7 +88,7 @@
 
 <ol class="breadcrumb">
   <li class="breadcrumb-item">Controllers</li>
-  <li class="breadcrumb-item" >EmployeeController</li>
+  <li class="breadcrumb-item" >ProductController</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -112,14 +112,14 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/employee/employee.controller.ts</code>
+            <code>src/product/product.controller.ts</code>
         </p>
 
             <p class="comment">
                 <h3>Prefix</h3>
             </p>
             <p class="comment">
-                <code>employee</code>
+                <code>product</code>
             </p>
 
 
@@ -147,9 +147,8 @@
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
-                                    <span class="modifier"></span>
                                     <span class="modifier">Async</span>
-                                <a href="#createEmployee" >createEmployee</a>
+                                <a href="#createProduct" >createProduct</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
@@ -159,14 +158,14 @@
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier">Async</span>
-                                <a href="#deleteEmployee" >deleteEmployee</a>
+                                <a href="#deleteProduct" >deleteProduct</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier">Async</span>
-                                <a href="#findAllEmployees" >findAllEmployees</a>
+                                <a href="#findAllProducts" >findAllProducts</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
@@ -174,7 +173,7 @@
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier">Async</span>
-                                <a href="#findEmployeeById" >findEmployeeById</a>
+                                <a href="#findProductById" >findProductById</a>
                             </li>
                             <li>
                                     <span class="modifier"></span>
@@ -183,9 +182,8 @@
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
-                                    <span class="modifier"></span>
                                     <span class="modifier">Async</span>
-                                <a href="#updateEmployee" >updateEmployee</a>
+                                <a href="#updateProduct" >updateProduct</a>
                             </li>
                         </ul>
                     </td>
@@ -208,7 +206,7 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createEmployee"></a>
+                    <a name="createProduct"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
@@ -216,17 +214,16 @@
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier"></span>
-                            <span class="modifier"></span>
                             <span class="modifier">Async</span>
-                        <span ><b>createEmployee</b></span>
-                        <a href="#createEmployee"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>createProduct</b></span>
+                        <a href="#createProduct"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createEmployee(createEmployeeDto: <a href="../classes/CreateEmployeeDto.html" target="_self">CreateEmployeeDto</a>)</code>
+                    <code>createProduct(createProductDto: <a href="../classes/CreateProductDto.html" target="_self">CreateProductDto</a>)</code>
                 </td>
             </tr>
 
@@ -234,14 +231,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post()<br />@Auth(AuthType.Bearer)<br />@ApiBearerAuth(&#x27;bearer-token&#x27;)<br />@ApiOperation({summary: &#x27;Create a new employee&#x27;})<br />@ApiBody({type: CreateEmployeeDto})<br />@ApiResponse({status: 201, description: &#x27;Employee created successfully&#x27;})<br />@ApiResponse({status: 400, description: &#x27;Bad Request&#x27;})<br /></code>
+                    <code>@Post()<br />@Auth(AuthType.Bearer)<br />@ApiBearerAuth(&#x27;bearer-token&#x27;)<br />@ApiOperation({summary: &#x27;Create a new product&#x27;})<br />@ApiResponse({status: 201, description: &#x27;Product created successfully&#x27;})<br />@ApiResponse({status: 400, description: &#x27;Bad Request&#x27;})<br /></code>
                 </td>
             </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="24"
-                                    class="link-to-prism">src/employee/employee.controller.ts:24</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="23"
+                                    class="link-to-prism">src/product/product.controller.ts:23</a></div>
                         </td>
                     </tr>
 
@@ -262,9 +259,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>createEmployeeDto</td>
+                                                <td>createProductDto</td>
                                             <td>
-                                                            <code><a href="../classes/CreateEmployeeDto.html" target="_self" >CreateEmployeeDto</a></code>
+                                                            <code><a href="../classes/CreateProductDto.html" target="_self" >CreateProductDto</a></code>
                                             </td>
 
                                             <td>
@@ -291,7 +288,7 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="deleteEmployee"></a>
+                    <a name="deleteProduct"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
@@ -300,15 +297,15 @@
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier">Async</span>
-                        <span ><b>deleteEmployee</b></span>
-                        <a href="#deleteEmployee"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>deleteProduct</b></span>
+                        <a href="#deleteProduct"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>deleteEmployee(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>deleteProduct(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -316,14 +313,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Delete(&#x27;/:id&#x27;)<br />@Auth(AuthType.Bearer)<br />@ApiBearerAuth(&#x27;bearer-token&#x27;)<br />@ApiOperation({summary: &#x27;Delete an employee by ID&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Employee deleted successfully&#x27;})<br />@ApiResponse({status: 404, description: &#x27;Employee not found&#x27;})<br /></code>
+                    <code>@Delete(&#x27;/:id&#x27;)<br />@Auth(AuthType.Bearer)<br />@ApiBearerAuth(&#x27;bearer-token&#x27;)<br />@ApiOperation({summary: &#x27;Delete a product by ID&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Product deleted successfully&#x27;})<br />@ApiResponse({status: 404, description: &#x27;Product not found&#x27;})<br /></code>
                 </td>
             </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="77"
-                                    class="link-to-prism">src/employee/employee.controller.ts:77</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="70"
+                                    class="link-to-prism">src/product/product.controller.ts:70</a></div>
                         </td>
                     </tr>
 
@@ -373,21 +370,21 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findAllEmployees"></a>
+                    <a name="findAllProducts"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier">Async</span>
-                        <span ><b>findAllEmployees</b></span>
-                        <a href="#findAllEmployees"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>findAllProducts</b></span>
+                        <a href="#findAllProducts"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findAllEmployees()</code>
+                    <code>findAllProducts()</code>
                 </td>
             </tr>
 
@@ -395,14 +392,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get()<br />@ApiOperation({summary: &#x27;Find all employees&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Employees found successfully&#x27;})<br /></code>
+                    <code>@Get()<br />@ApiOperation({summary: &#x27;Find all products&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Products found successfully&#x27;})<br /></code>
                 </td>
             </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="43"
-                                    class="link-to-prism">src/employee/employee.controller.ts:43</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="42"
+                                    class="link-to-prism">src/product/product.controller.ts:42</a></div>
                         </td>
                     </tr>
 
@@ -422,22 +419,22 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="findEmployeeById"></a>
+                    <a name="findProductById"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier">Async</span>
-                        <span ><b>findEmployeeById</b></span>
-                        <a href="#findEmployeeById"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>findProductById</b></span>
+                        <a href="#findProductById"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>findEmployeeById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
+                    <code>findProductById(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>)</code>
                 </td>
             </tr>
 
@@ -445,14 +442,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Get(&#x27;/:id&#x27;)<br />@ApiOperation({summary: &#x27;Find an employee by ID&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Employee found successfully&#x27;})<br />@ApiResponse({status: 404, description: &#x27;Employee not found&#x27;})<br /></code>
+                    <code>@Get(&#x27;/:id&#x27;)<br />@ApiOperation({summary: &#x27;Find a product by ID&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Product found successfully&#x27;})<br />@ApiResponse({status: 404, description: &#x27;Product not found&#x27;})<br /></code>
                 </td>
             </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="32"
-                                    class="link-to-prism">src/employee/employee.controller.ts:32</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="31"
+                                    class="link-to-prism">src/product/product.controller.ts:31</a></div>
                         </td>
                     </tr>
 
@@ -502,7 +499,7 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="updateEmployee"></a>
+                    <a name="updateProduct"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
@@ -510,17 +507,16 @@
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier"></span>
-                            <span class="modifier"></span>
                             <span class="modifier">Async</span>
-                        <span ><b>updateEmployee</b></span>
-                        <a href="#updateEmployee"><span class="icon ion-ios-link"></span></a>
+                        <span ><b>updateProduct</b></span>
+                        <a href="#updateProduct"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>updateEmployee(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateEmployeeDto: <a href="../classes/UpdateEmployeeDto.html" target="_self">UpdateEmployeeDto</a>)</code>
+                    <code>updateProduct(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank">string</a>, updateProductDto: <a href="../classes/UpdateProductDto.html" target="_self">UpdateProductDto</a>)</code>
                 </td>
             </tr>
 
@@ -528,14 +524,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Patch(&#x27;/:id&#x27;)<br />@Auth(AuthType.Bearer)<br />@ApiBearerAuth(&#x27;bearer-token&#x27;)<br />@ApiOperation({summary: &#x27;Update an employee by ID&#x27;})<br />@ApiBody({type: UpdateEmployeeDto})<br />@ApiResponse({status: 200, description: &#x27;Employee updated successfully&#x27;})<br />@ApiResponse({status: 404, description: &#x27;Employee not found&#x27;})<br /></code>
+                    <code>@Patch(&#x27;/:id&#x27;)<br />@Auth(AuthType.Bearer)<br />@ApiBearerAuth(&#x27;bearer-token&#x27;)<br />@ApiOperation({summary: &#x27;Update a product by ID&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Product updated successfully&#x27;})<br />@ApiResponse({status: 404, description: &#x27;Product not found&#x27;})<br /></code>
                 </td>
             </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="58"
-                                    class="link-to-prism">src/employee/employee.controller.ts:58</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="56"
+                                    class="link-to-prism">src/product/product.controller.ts:56</a></div>
                         </td>
                     </tr>
 
@@ -568,9 +564,9 @@
 
                                         </tr>
                                         <tr>
-                                                <td>updateEmployeeDto</td>
+                                                <td>updateProductDto</td>
                                             <td>
-                                                            <code><a href="../classes/UpdateEmployeeDto.html" target="_self" >UpdateEmployeeDto</a></code>
+                                                            <code><a href="../classes/UpdateProductDto.html" target="_self" >UpdateProductDto</a></code>
                                             </td>
 
                                             <td>
@@ -597,91 +593,84 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, NotFoundException, UseGuards } from &#x27;@nestjs/common&#x27;;
-import { CreateEmployeeDto } from &#x27;./dtos/create-employee.dto&#x27;;
-import { UpdateEmployeeDto } from &#x27;./dtos/update-employee.dto&#x27;;
-import { EmployeeInterface } from &#x27;./interface/employee.interface&#x27;;
-import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from &#x27;@nestjs/swagger&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Delete, Get, Inject, NotFoundException, Param, Patch, Post } from &#x27;@nestjs/common&#x27;;
+import { ApiBearerAuth, ApiOperation, ApiResponse, ApiTags } from &#x27;@nestjs/swagger&#x27;;
+import { ProductInterface } from &#x27;./interface/product.interface&#x27;;
+import { CreateProductDto } from &#x27;./dtos/create-product.dto&#x27;;
 import { Auth } from &#x27;src/auth/decorators/auth.decorator&#x27;;
 import { AuthType } from &#x27;src/auth/enums/auth-type.enum&#x27;;
+import { UpdateProductDto } from &#x27;./dtos/update-prodcut.dto&#x27;;
 
-@ApiTags(&#x27;Employee&#x27;)  
-@Controller(&#x27;employee&#x27;)
-export class EmployeeController {
-  constructor(
-    @Inject(&#x27;EmployeeInterface&#x27;)
-    private readonly employeeInterface: EmployeeInterface
-  ) {}
+@ApiTags(&#x27;Product&#x27;)
+@Controller(&#x27;product&#x27;)
+export class ProductController {
+    constructor(
+        @Inject(&#x27;ProductInterface&#x27;)
+        private readonly productInterface: ProductInterface,
+    ){}
 
-  @Post()
-  @Auth(AuthType.Bearer)
-  @ApiBearerAuth(&#x27;bearer-token&#x27;)
-  @ApiOperation({ summary: &#x27;Create a new employee&#x27; })
-  @ApiBody({ type: CreateEmployeeDto })
-  @ApiResponse({ status: 201, description: &#x27;Employee created successfully&#x27; })
-  @ApiResponse({ status: 400, description: &#x27;Bad Request&#x27; })
-  async createEmployee(@Body() createEmployeeDto: CreateEmployeeDto) {
-    return await this.employeeInterface.createEmployee(createEmployeeDto);
-  }
-
-  @Get(&#x27;/:id&#x27;)
-  @ApiOperation({ summary: &#x27;Find an employee by ID&#x27; })
-  @ApiResponse({ status: 200, description: &#x27;Employee found successfully&#x27; })
-  @ApiResponse({ status: 404, description: &#x27;Employee not found&#x27; })
-  async findEmployeeById(@Param(&#x27;id&#x27;) id: string) {
-    const employee &#x3D; await this.employeeInterface.findEmployeeById(id);
-    if (!employee) {
-      throw new NotFoundException(&#x27;Employee not found&#x27;);
+    @Post()
+    @Auth(AuthType.Bearer)
+    @ApiBearerAuth(&#x27;bearer-token&#x27;)
+    @ApiOperation({ summary: &#x27;Create a new product&#x27; })
+    @ApiResponse({ status: 201, description: &#x27;Product created successfully&#x27; })
+    @ApiResponse({ status: 400, description: &#x27;Bad Request&#x27; })
+    async createProduct(@Body() createProductDto: CreateProductDto) {
+        return this.productInterface.createProduct(createProductDto);
     }
-    return employee;
-  }
 
-  @Get()
-  @ApiOperation({ summary: &#x27;Find all employees&#x27; })
-  @ApiResponse({ status: 200, description: &#x27;Employees found successfully&#x27; })
-  async findAllEmployees() {  
-    const employees &#x3D; await this.employeeInterface.findAllEmployees();
-    if (!employees || employees.length &#x3D;&#x3D;&#x3D; 0) {
-      throw new NotFoundException(&#x27;No employees found&#x27;);
+    @Get(&#x27;/:id&#x27;)
+    @ApiOperation({ summary: &#x27;Find a product by ID&#x27; })
+    @ApiResponse({ status: 200, description: &#x27;Product found successfully&#x27; })
+    @ApiResponse({ status: 404, description: &#x27;Product not found&#x27; })
+    async findProductById(@Param(&#x27;id&#x27;) id: string) {
+        const product &#x3D; await this.productInterface.findProductById(id);
+        if (!product) {
+            throw new NotFoundException(&#x27;Product not found&#x27;);
+        }
+        return product;
     }
-    return employees;
-  }
 
-  @Patch(&#x27;/:id&#x27;)
-  @Auth(AuthType.Bearer)
-  @ApiBearerAuth(&#x27;bearer-token&#x27;)
-  @ApiOperation({ summary: &#x27;Update an employee by ID&#x27; })
-  @ApiBody({ type: UpdateEmployeeDto })
-  @ApiResponse({ status: 200, description: &#x27;Employee updated successfully&#x27; })
-  @ApiResponse({ status: 404, description: &#x27;Employee not found&#x27; })  
-  async updateEmployee(@Param(&#x27;id&#x27;) id: string, @Body() updateEmployeeDto: UpdateEmployeeDto) {
-    try {
-      const updatedEmployee &#x3D; await this.employeeInterface.updateEmployee(id, updateEmployeeDto);
-      if (!updatedEmployee) {
-        throw new NotFoundException(&#x27;Employee not found&#x27;);
-      }
-      return updatedEmployee;
-    } catch (err) {
-      console.error(&#x27;Update error:&#x27;, err); 
-      throw err;
+    @Get()
+    @ApiOperation({ summary: &#x27;Find all products&#x27; })
+    @ApiResponse({ status: 200, description: &#x27;Products found successfully&#x27; })
+    async findAllProducts() {
+        const products &#x3D; await this.productInterface.findAllProducts();
+        if (!products || products.length &#x3D;&#x3D;&#x3D; 0) {
+            throw new NotFoundException(&#x27;No products found&#x27;);
+        }
+        return products;
     }
-  }
 
-  @Delete(&#x27;/:id&#x27;)
-  @Auth(AuthType.Bearer)
-  @ApiBearerAuth(&#x27;bearer-token&#x27;)
-  @ApiOperation({ summary: &#x27;Delete an employee by ID&#x27; })
-  @ApiResponse({ status: 200, description: &#x27;Employee deleted successfully&#x27; })
-  @ApiResponse({ status: 404, description: &#x27;Employee not found&#x27; })
-  async deleteEmployee(@Param(&#x27;id&#x27;) id: string) {
-    const deletedEmployee &#x3D; await this.employeeInterface.deleteEmployee(id);
-    if (!deletedEmployee) {
-      throw new NotFoundException(&#x27;Employee not found&#x27;);
+    @Patch(&#x27;/:id&#x27;)
+    @Auth(AuthType.Bearer)
+    @ApiBearerAuth(&#x27;bearer-token&#x27;)
+    @ApiOperation({ summary: &#x27;Update a product by ID&#x27; })
+    @ApiResponse({ status: 200, description: &#x27;Product updated successfully&#x27; })
+    @ApiResponse({ status: 404, description: &#x27;Product not found&#x27; })
+    async updateProduct(@Param(&#x27;id&#x27;) id: string, @Body() updateProductDto: UpdateProductDto) {
+        const updatedProduct &#x3D; await this.productInterface.updateProduct(id, updateProductDto);
+        if (!updatedProduct) {
+            throw new NotFoundException(&#x27;Product not found&#x27;);
+        }
+        return updatedProduct;
     }
-    return {
-      message: &#x27;Employee deleted successfully&#x27;,
-    };
-  }
+
+    @Delete(&#x27;/:id&#x27;)
+    @Auth(AuthType.Bearer)
+    @ApiBearerAuth(&#x27;bearer-token&#x27;)
+    @ApiOperation({ summary: &#x27;Delete a product by ID&#x27; })
+    @ApiResponse({ status: 200, description: &#x27;Product deleted successfully&#x27; })
+    @ApiResponse({ status: 404, description: &#x27;Product not found&#x27; }) 
+    async deleteProduct(@Param(&#x27;id&#x27;) id: string) {
+        const deletedProduct &#x3D; await this.productInterface.deleteProduct(id);
+        if (!deletedProduct) {
+            throw new NotFoundException(&#x27;Product not found&#x27;);
+        }
+        return {
+            message: &#x27;Product deleted successfully&#x27;,
+        };
+    }
 }
 </code></pre>
     </div>
@@ -728,7 +717,7 @@ export class EmployeeController {
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
-            var COMPODOC_CURRENT_PAGE_URL = 'EmployeeController.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'ProductController.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

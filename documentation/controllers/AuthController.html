@@ -144,7 +144,16 @@
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
                                     <span class="modifier"></span>
-                                    <span class="modifier">Public</span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier">Async</span>
+                                <a href="#register" >register</a>
+                            </li>
+                            <li>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
+                                    <span class="modifier"></span>
                                     <span class="modifier">Async</span>
                                 <a href="#signIn" >signIn</a>
                             </li>
@@ -169,12 +178,93 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
+                    <a name="register"></a>
+                    <span class="name">
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier"></span>
+                            <span class="modifier">Async</span>
+                        <span ><b>register</b></span>
+                        <a href="#register"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>register(createUserDto: <a href="../classes/CreateUserDto.html" target="_self">CreateUserDto</a>)</code>
+                </td>
+            </tr>
+
+            <tr>
+                <td class="col-md-4">
+                    <b>Decorators : </b>
+                    <br />
+                    <code>@Post(&#x27;register&#x27;)<br />@ApiOperation({summary: &#x27;User Registration&#x27;})<br />@ApiBody({type: CreateUserDto})<br />@ApiResponse({status: 201, description: &#x27;User registered successfully&#x27;})<br />@ApiResponse({status: 409, description: &#x27;User with this email already exists&#x27;})<br /></code>
+                </td>
+            </tr>
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="24"
+                                    class="link-to-prism">src/auth/auth.controller.ts:24</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>createUserDto</td>
+                                            <td>
+                                                            <code><a href="../classes/CreateUserDto.html" target="_self" >CreateUserDto</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
                     <a name="signIn"></a>
                     <span class="name">
                             <span class="modifier"></span>
                             <span class="modifier"></span>
                             <span class="modifier"></span>
-                            <span class="modifier">Public</span>
+                            <span class="modifier"></span>
                             <span class="modifier">Async</span>
                         <span ><b>signIn</b></span>
                         <a href="#signIn"><span class="icon ion-ios-link"></span></a>
@@ -192,14 +282,14 @@
                 <td class="col-md-4">
                     <b>Decorators : </b>
                     <br />
-                    <code>@Post()<br />@ApiOperation({summary: &#x27;User Sign In&#x27;})<br />@ApiBody({type: SignInDto})<br /></code>
+                    <code>@Post(&#x27;signIn&#x27;)<br />@Auth(AuthType.None)<br />@ApiOperation({summary: &#x27;User Sign In&#x27;})<br />@ApiBody({type: SignInDto})<br /></code>
                 </td>
             </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="15"
-                                    class="link-to-prism">src/auth/auth.controller.ts:15</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="32"
+                                    class="link-to-prism">src/auth/auth.controller.ts:32</a></div>
                         </td>
                     </tr>
 
@@ -249,21 +339,38 @@
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Post } from &#x27;@nestjs/common&#x27;;
-import { AuthService } from &#x27;./providers/auth.service&#x27;;
-import { ApiBody, ApiOperation } from &#x27;@nestjs/swagger&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Body, Controller, Inject, Post } from &#x27;@nestjs/common&#x27;;
+import { AuthService } from &#x27;./auth.service&#x27;;
+import { ApiBody, ApiOperation, ApiResponse } from &#x27;@nestjs/swagger&#x27;;
 import { SignInDto } from &#x27;./dtos/signin.dto&#x27;;
+import { UserInterface } from &#x27;src/user/interfaces/user.interface&#x27;;
+import { CreateUserDto } from &#x27;src/user/dtos/create-user.dto&#x27;;
+import { Auth } from &#x27;./decorators/auth.decorator&#x27;;
+import { AuthType } from &#x27;./enums/auth-type.enum&#x27;;
 
 @Controller(&#x27;auth&#x27;)
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
+
+        @Inject(&#x27;UserInterface&#x27;)
+        private readonly userInterface: UserInterface
     ){}
 
-    @Post()
+    @Post(&#x27;register&#x27;)
+    @ApiOperation({ summary: &#x27;User Registration&#x27; })
+    @ApiBody({ type: CreateUserDto })
+    @ApiResponse({ status: 201, description: &#x27;User registered successfully&#x27; })
+    @ApiResponse({ status: 409, description: &#x27;User with this email already exists&#x27; })
+    async register(@Body() createUserDto: CreateUserDto){
+        return await this.userInterface.createUser(createUserDto);
+    }
+
+    @Post(&#x27;signIn&#x27;)
+    @Auth(AuthType.None)
     @ApiOperation({ summary: &#x27;User Sign In&#x27; })
     @ApiBody({ type: SignInDto })
-    public async signIn(@Body() signInDto: any) {
+    async signIn(@Body() signInDto: any) {
         return this.authService.signIn(signInDto);
     }
 }

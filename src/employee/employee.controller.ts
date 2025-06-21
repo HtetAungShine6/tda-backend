@@ -1,10 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, NotFoundException, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Inject, NotFoundException, UseGuards, Query } from '@nestjs/common';
 import { CreateEmployeeDto } from './dtos/create-employee.dto';
 import { UpdateEmployeeDto } from './dtos/update-employee.dto';
 import { EmployeeInterface } from './interface/employee.interface';
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { EmpStatus } from './enums/emp-status.enum';
+import { UpdateEmployeeStatusDto } from './dtos/update-employee-status.dto';
 
 @ApiTags('Employee')  
 @Controller('employee')
@@ -66,6 +68,21 @@ export class EmployeeController {
       console.error('Update error:', err); 
       throw err;
     }
+  }
+
+  @Patch('/:id/status')
+  @Auth(AuthType.Bearer)
+  @ApiBearerAuth('bearer-token')
+  @ApiOperation({ summary: 'Update employee status by ID' })
+  @ApiBody({ type: UpdateEmployeeStatusDto })
+  @ApiResponse({ status: 200, description: 'Employee status updated successfully' })
+  @ApiResponse({ status: 404, description: 'Employee not found' })
+  async updateEmployeeStatus(@Param('id') id: string, @Body() updateEmployeeStatus: UpdateEmployeeStatusDto) {
+    const updatedEmployee = await this.employeeInterface.updateEmployeeStatus(id, updateEmployeeStatus);
+    if (!updatedEmployee) {
+      throw new NotFoundException('Employee not found');
+    }
+    return updatedEmployee;
   }
 
   @Delete('/:id')
