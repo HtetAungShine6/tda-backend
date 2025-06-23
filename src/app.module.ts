@@ -13,6 +13,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
 import { JwtModule } from '@nestjs/jwt';
+import { EmployeeProductModule } from './employee-product/employee-product.module';
 import jwtConfig from './auth/config/jwt.config';
 
 @Module({
@@ -40,7 +41,8 @@ import jwtConfig from './auth/config/jwt.config';
     AuthModule,
     UserModule,
     EmployeeModule,
-    ProductModule
+    ProductModule,
+    EmployeeProductModule
   ],
   controllers: [AppController],
   providers: [

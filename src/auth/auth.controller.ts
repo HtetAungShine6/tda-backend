@@ -22,7 +22,7 @@ export class AuthController {
     @ApiResponse({ status: 201, description: 'User registered successfully' })
     @ApiResponse({ status: 409, description: 'User with this email already exists' })
     async register(@Body() createUserDto: CreateUserDto){
-        return await this.userInterface.createUser(createUserDto);
+        return this.userInterface.createUser(createUserDto);
     }
 
     @Post('signIn')

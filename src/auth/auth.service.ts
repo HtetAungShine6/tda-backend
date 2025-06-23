@@ -11,6 +11,10 @@ export class AuthService implements AuthInterface {
     ){}
 
     async signIn(signInDto: SignInDto): Promise<User | null> {
-        return await this.signInProvider.signIn(signInDto);
+        try {
+            return await this.signInProvider.signIn(signInDto);
+        } catch (error) {
+            throw new RequestTimeoutException('Sign in failed');
+        }
     }
 }

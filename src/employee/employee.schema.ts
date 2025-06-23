@@ -31,7 +31,7 @@ export class Employee extends Document {
     @Prop({
         type: String,
         required: true,
-        enum: EmpStatus, 
+        enum: Object.values(EmpStatus), 
         default: EmpStatus.ACTIVE,
     })
     status: EmpStatus;

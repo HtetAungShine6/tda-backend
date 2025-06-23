@@ -7,27 +7,24 @@ import { UserServiceImpl } from './user.service';
 import { CreateUserProvider } from './providers/create-user.provider';
 
 @Module({
-    imports: [
-        MongooseModule.forFeature([
-            {
-                name: User.name,
-                schema: UserSchema
-            }
-        ]),
-        forwardRef(() => AuthModule),
-    ],
-    providers: [
-        {
-            provide: 'UserInterface',    
-            useExisting: UserServiceImpl,        
-        },
-        UserServiceImpl,
-        CreateUserProvider
-    ],
-    controllers: [UserController],
-    exports: [
-        UserServiceImpl,
-        'UserInterface'
-    ],
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: User.name,
+        schema: UserSchema,
+      },
+    ]),
+    forwardRef(() => AuthModule),
+  ],
+  providers: [
+    {
+      provide: 'UserInterface',
+      useExisting: UserServiceImpl,
+    },
+    UserServiceImpl,
+    CreateUserProvider,
+  ],
+  controllers: [UserController],
+  exports: [UserServiceImpl, 'UserInterface'],
 })
 export class UserModule {}

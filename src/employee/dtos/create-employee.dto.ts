@@ -1,36 +1,34 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDateString, IsNotEmpty, IsString } from "class-validator";
+import { IsDateString, IsEnum, IsNotEmpty, IsString } from "class-validator";
 import { EmpStatus } from "../enums/emp-status.enum";
 
 export class CreateEmployeeDto {
-
-    @ApiProperty()
+    @ApiProperty({ required: true })
     @IsNotEmpty()
     @IsString()
     name: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: true })
     @IsNotEmpty()
     @IsString()
     phoneNumber: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: true })
     @IsNotEmpty()
     @IsString()
     address: string;
 
-    @ApiProperty()
+    @ApiProperty({ required: true })
     @IsNotEmpty()
     @IsString()
     position: string;
 
-    @ApiProperty()
-    @IsNotEmpty()
-    @IsString()
+    @ApiProperty({ enum: EmpStatus, description: 'Employee status', required: true })
+    @IsEnum(EmpStatus)
     status: EmpStatus;
 
-    @ApiProperty()
+    @ApiProperty({ required: true })
     @IsNotEmpty()
-    @IsDateString()
-    joinedDate: string;
+    @IsString()
+    joinedDate: Date;
 }
