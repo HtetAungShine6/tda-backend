@@ -21,5 +21,6 @@ import { Employee, EmployeeSchema } from './employee.schema';
       useExisting: EmployeeServiceImpl,
     }
   ],
+  exports: [EmployeeServiceImpl, 'EmployeeInterface'],
 })
 export class EmployeeModule {}

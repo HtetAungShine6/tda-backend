@@ -26,7 +26,7 @@ export class EmployeeServiceImpl implements EmployeeInterface {
       const createdEmployee = new this.employeeModel(createEmployeeDto);
       return createdEmployee.save();
     } catch (error) {
-      throw new Error('Failed to create employee: ' + error.message);
+      throw new InternalServerErrorException('Failed to create employee: ' + error.message);
     }
   }
 
@@ -38,7 +38,7 @@ export class EmployeeServiceImpl implements EmployeeInterface {
       }
       return employee;
     } catch (error) {
-      throw new Error('Failed to find employee by ID: ' + error.message);
+      throw new InternalServerErrorException('Failed to find employee by ID: ' + error.message);
     }
   }
 
@@ -50,7 +50,7 @@ export class EmployeeServiceImpl implements EmployeeInterface {
       }
       return employees;
     } catch (error) {
-      throw new Error('Failed to find all employees: ' + error.message);
+      throw new InternalServerErrorException('Failed to find all employees: ' + error.message);
     }
   }
 

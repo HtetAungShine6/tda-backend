@@ -25,7 +25,6 @@ import {
 } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
-import { EmpStatus } from './enums/emp-status.enum';
 import { UpdateEmployeeStatusDto } from './dtos/update-employee-status.dto';
 
 @ApiTags('Employee')
@@ -49,6 +48,11 @@ export class EmployeeController {
 
   @Get('/:id')
   @ApiOperation({ summary: 'Find an employee by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'MongoDB _id of the employee',
+  })
   @ApiResponse({ status: 200, description: 'Employee found successfully' })
   @ApiResponse({ status: 404, description: 'Employee not found' })
   async findEmployeeById(@Param('id') id: string) {
@@ -89,6 +93,11 @@ export class EmployeeController {
   @Auth(AuthType.Bearer)
   @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Update employee status by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'MongoDB _id of the employee',
+  })
   @ApiBody({ type: UpdateEmployeeStatusDto })
   @ApiResponse({
     status: 200,
@@ -109,6 +118,11 @@ export class EmployeeController {
   @Auth(AuthType.Bearer)
   @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Delete an employee by ID' })
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'MongoDB _id of the employee',
+  })
   @ApiResponse({ status: 200, description: 'Employee deleted successfully' })
   @ApiResponse({ status: 404, description: 'Employee not found' })
   async deleteEmployee(@Param('id') id: string) {

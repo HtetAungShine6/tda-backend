@@ -20,6 +20,7 @@ import { Product, ProductSchema } from './product.schema';
       provide: 'ProductInterface',
       useExisting: ProductServiceImpl,
     }
-  ]
+  ],
+  exports: [ProductServiceImpl, 'ProductInterface'],
 })
 export class ProductModule {}
