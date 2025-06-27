@@ -5,19 +5,23 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { EmployeeProduct } from './employee-product.schema';
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import { CreateEmployeeProductDto } from './dtos/create-employee-product.dto';
 import { UpdateEmployeeProductDto } from './dtos/update-employee-product.dto';
 import { EmployeeProductInterface } from './interface/employee-product.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { EmployeeInterface } from 'src/employee/interface/employee.interface';
 import { ProductInterface } from 'src/product/interface/product.interface';
+import { EmployeePayroll } from './employee.payroll.schema';
 
 @Injectable()
 export class EmployeeProductServiceImpl implements EmployeeProductInterface {
   constructor(
     @InjectModel(EmployeeProduct.name)
     private readonly employeeProductModel: Model<EmployeeProduct>,
+
+    @InjectModel(EmployeePayroll.name)
+    private readonly employeePayrollModel: Model<EmployeePayroll>,
 
     @Inject('EmployeeInterface')
     private readonly employeeInterface: EmployeeInterface,
@@ -32,7 +36,8 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     try {
       const { employeeId, productId } = createEmployeeProductDto;
 
-      const employee = await this.employeeInterface.findEmployeeById(employeeId);
+      const employee =
+        await this.employeeInterface.findEmployeeById(employeeId);
       if (!employee) {
         throw new NotFoundException(`Employee with ID ${employeeId} not found`);
       }
@@ -42,9 +47,13 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
         throw new NotFoundException(`Product with ID ${productId} not found`);
       }
 
-      const createdEmployeeProduct = new this.employeeProductModel(
-        createEmployeeProductDto,
-      );
+      const totalPrice = product.price * createEmployeeProductDto.quantity;
+
+      const createdEmployeeProduct = new this.employeeProductModel({
+        ...createEmployeeProductDto,
+        totalPrice,
+        updatedAt: new Date(),
+      });
       return await createdEmployeeProduct.save();
     } catch (error) {
       throw new InternalServerErrorException(
@@ -65,6 +74,52 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     } catch (error) {
       throw new InternalServerErrorException(
         'Failed to find employee product by ID: ' + error.message,
+      );
+    }
+  }
+
+  async findEmployeeProductsByEmployeeId(
+    empId: string,
+  ): Promise<EmployeeProduct[]> {
+    try {
+      const employee = await this.employeeInterface.findEmployeeById(empId);
+      if (!employee) {
+        throw new NotFoundException(`Employee with ID ${empId} not found`);
+      }
+      const employeeProducts = await this.employeeProductModel
+        .find({ employeeId: new Types.ObjectId(empId) })
+        .exec();
+
+      if (employeeProducts.length === 0) {
+        throw new NotFoundException('No products found for this employee');
+      }
+      return employeeProducts;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Failed to find employee products by employee ID: ' + error.message,
+      );
+    }
+  }
+
+  async findEmployeeProductsByProductId(
+    productId: string,
+  ): Promise<EmployeeProduct[]> {
+    try {
+      const employee = await this.productInterface.findProductById(productId);
+      if (!employee) {
+        throw new NotFoundException(`Product with ID ${productId} not found`);
+      }
+      const employeeProducts = await this.employeeProductModel
+        .find({ productId: productId })
+        .exec();
+
+      if (employeeProducts.length === 0) {
+        throw new NotFoundException('No products found for this product ID');
+      }
+      return employeeProducts;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        'Failed to find employee products by product ID: ' + error.message,
       );
     }
   }

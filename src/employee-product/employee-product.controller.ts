@@ -7,12 +7,14 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBearerAuth,
   ApiBody,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -46,6 +48,40 @@ export class EmployeeProductController {
     return this.employeeProductInterface.createEmployeeProduct(
       createEmployeeProductDto,
     );
+  }
+
+  @Get('/get-by-employee-id')
+  @ApiOperation({ summary: 'Find employee products by employee ID' })
+  @ApiQuery({
+    name: 'employeeId',
+    type: String,
+    required: true,
+    description: 'MongoDB _id of the employee',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Employee products found successfully',
+  })
+  @ApiResponse({ status: 404, description: 'No employee products found' })
+  async findEmployeeProductsByEmployeeId(@Query('employeeId') employeeId: string) {
+    return this.employeeProductInterface.findEmployeeProductsByEmployeeId(employeeId);
+  }
+
+  @Get('/get-by-product-id')
+  @ApiOperation({ summary: 'Find employee products by product ID' })
+  @ApiQuery({
+    name: 'productId',
+    type: String,
+    required: true, 
+    description: 'MongoDB _id of the product',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Employee products found successfully',
+  })
+  @ApiResponse({ status: 404, description: 'No employee products found' })
+  async findEmployeeProductsByProductId(@Query('productId') productId: string) {
+    return this.employeeProductInterface.findEmployeeProductsByProductId(productId);
   }
 
   @Get('/:id')

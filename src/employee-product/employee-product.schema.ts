@@ -21,9 +21,22 @@ export class EmployeeProduct extends Document {
     @Prop({
         type: Number,
         required: true,
-        default: 1
+        default: 0
     })
     quantity: number;
+
+    @Prop({
+        type: Number,
+        required: true,
+        default: 0
+    })
+    totalPrice: number;
+
+    @Prop({
+        type: Date,
+        default: Date.now
+    })
+    updatedAt: Date;
 }
 
 export const EmployeeProductSchema = SchemaFactory.createForClass(EmployeeProduct);

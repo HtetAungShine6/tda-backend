@@ -6,6 +6,8 @@ export interface EmployeeProductInterface {
     createEmployeeProduct(createEmployeeProductDto: CreateEmployeeProductDto): Promise<EmployeeProduct>;
     findEmployeeProductById(id: string): Promise<EmployeeProduct | null>;
     findAllEmployeeProducts(): Promise<EmployeeProduct[]>;
+    findEmployeeProductsByEmployeeId(employeeId: string): Promise<EmployeeProduct[]>;
+    findEmployeeProductsByProductId(productId: string): Promise<EmployeeProduct[]>;
     updateEmployeeProduct(id: string, updateEmployeeProductDto: UpdateEmployeeProductDto): Promise<EmployeeProduct | null>;
     deleteEmployeeProduct(id: string): Promise<EmployeeProduct | null>;
 }
