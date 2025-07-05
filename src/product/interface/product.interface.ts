@@ -4,8 +4,8 @@ import { Product } from "../product.schema";
 
 export interface ProductInterface {
     createProduct(createProductDto: CreateProductDto): Promise<Product>;
-    findProductById(id: string): Promise<Product | null>;
+    findProductById(id: string): Promise<Product>;
     findAllProducts(): Promise<Product[]>;
-    updateProduct(id: string, updateProductDto: UpdateProductDto): Promise<Product | null>;
-    deleteProduct(id: string): Promise<Product | null>;
+    updateProduct(id: string, updateProductDto: UpdateProductDto): Promise<Product>;
+    deleteProduct(id: string): Promise<Product>;
 }

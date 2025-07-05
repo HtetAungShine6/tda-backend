@@ -18,6 +18,7 @@ import { EmployeeInterface } from './interface/employee.interface';
 import {
   ApiBearerAuth,
   ApiBody,
+  ApiExtraModels,
   ApiOperation,
   ApiParam,
   ApiResponse,
@@ -26,8 +27,11 @@ import {
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { UpdateEmployeeStatusDto } from './dtos/update-employee-status.dto';
+import { ApiErrorResponse, ApiSuccessResponse } from 'src/helpers/swagger.helper';
+import { Employee } from './employee.schema';
 
 @ApiTags('Employee')
+@ApiExtraModels(Employee)
 @Controller('employee')
 export class EmployeeController {
   constructor(
@@ -40,8 +44,6 @@ export class EmployeeController {
   @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Create a new employee' })
   @ApiBody({ type: CreateEmployeeDto })
-  @ApiResponse({ status: 201, description: 'Employee created successfully' })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
   async createEmployee(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeeInterface.createEmployee(createEmployeeDto);
   }
@@ -53,15 +55,12 @@ export class EmployeeController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  @ApiResponse({ status: 200, description: 'Employee found successfully' })
-  @ApiResponse({ status: 404, description: 'Employee not found' })
   async findEmployeeById(@Param('id') id: string) {
     return this.employeeInterface.findEmployeeById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Find all employees' })
-  @ApiResponse({ status: 200, description: 'Employees found successfully' })
   async findAllEmployees() {
     return this.employeeInterface.findAllEmployees();
   }
@@ -76,8 +75,6 @@ export class EmployeeController {
     description: 'MongoDB _id of the employee',
   })
   @ApiBody({ type: UpdateEmployeeDto })
-  @ApiResponse({ status: 200, description: 'Employee updated successfully' })
-  @ApiResponse({ status: 404, description: 'Employee not found' })
   async updateEmployee(
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
@@ -99,11 +96,6 @@ export class EmployeeController {
     description: 'MongoDB _id of the employee',
   })
   @ApiBody({ type: UpdateEmployeeStatusDto })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee status updated successfully',
-  })
-  @ApiResponse({ status: 404, description: 'Employee not found' })
   async updateEmployeeStatus(
     @Param('id') id: string,
     @Body() updateEmployeeStatus: UpdateEmployeeStatusDto,
@@ -123,8 +115,6 @@ export class EmployeeController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  @ApiResponse({ status: 200, description: 'Employee deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Employee not found' })
   async deleteEmployee(@Param('id') id: string) {
     return this.employeeInterface.deleteEmployee(id);
   }

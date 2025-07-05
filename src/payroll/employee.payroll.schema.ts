@@ -1,10 +1,10 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
-import { Document } from "mongoose";
+import { Document, Types } from "mongoose";
 
 @Schema()
-export class EmployeePayroll extends Document{
+export class Payroll extends Document{
     @Prop({
-        type: String,
+        type: Types.ObjectId,
         required: true,
     })
     employeeId: string;
@@ -21,19 +21,13 @@ export class EmployeePayroll extends Document{
         required: true,
         default: 0,
     })
-    totalPayroll: number;
+    totalSalary: number;
 
     @Prop({
         type: Date,
         default: Date.now,
     })
-    updatedAt: Date;
-
-    @Prop({
-        type: Date,
-        required: true,
-    })
-    payrollDate: Date;
+    period: Date;
 }
 
-export const EmployeePayrollSchema = SchemaFactory.createForClass(EmployeePayroll); 
+export const PayrollSchema = SchemaFactory.createForClass(Payroll); 

@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { EmployeeProduct, EmployeeProductSchema } from './employee-product.schema';
 import { EmployeeModule } from 'src/employee/employee.module';
 import { ProductModule } from 'src/product/product.module';
+import { PayrollModule } from 'src/payroll/payroll.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from 'src/product/product.module';
     ]),
     forwardRef(() => EmployeeModule),
     forwardRef(() => ProductModule), 
+    forwardRef(() => PayrollModule), 
   ],
   controllers: [EmployeeProductController],
   providers: [

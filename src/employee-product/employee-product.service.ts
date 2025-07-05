@@ -12,167 +12,193 @@ import { EmployeeProductInterface } from './interface/employee-product.interface
 import { InjectModel } from '@nestjs/mongoose';
 import { EmployeeInterface } from 'src/employee/interface/employee.interface';
 import { ProductInterface } from 'src/product/interface/product.interface';
-import { EmployeePayroll } from './employee.payroll.schema';
-
+import { toObjectId } from 'src/common/utils/object-id.util';
+import { PayrollInterface } from 'src/payroll/interface/payroll.interface';
+import { Payroll } from 'src/payroll/employee.payroll.schema';
+import { throwIfNotFound } from 'src/helpers/throwIfNotFound';
+import { PayrollDocument } from 'src/payroll/payroll.document';
+import { find } from 'rxjs';
 @Injectable()
 export class EmployeeProductServiceImpl implements EmployeeProductInterface {
   constructor(
     @InjectModel(EmployeeProduct.name)
     private readonly employeeProductModel: Model<EmployeeProduct>,
 
-    @InjectModel(EmployeePayroll.name)
-    private readonly employeePayrollModel: Model<EmployeePayroll>,
-
     @Inject('EmployeeInterface')
     private readonly employeeInterface: EmployeeInterface,
 
     @Inject('ProductInterface')
     private readonly productInterface: ProductInterface,
+
+    @Inject('PayrollInterface')
+    private readonly payrollInterface: PayrollInterface,
   ) {}
 
   async createEmployeeProduct(
     createEmployeeProductDto: CreateEmployeeProductDto,
   ): Promise<EmployeeProduct> {
-    try {
-      const { employeeId, productId } = createEmployeeProductDto;
+    const { employeeId, productId, quantity } = createEmployeeProductDto;
+    await this.employeeInterface.findEmployeeById(employeeId);
+    const product = await this.productInterface.findProductById(productId);
+    const totalPrice = product.price * quantity;
+    const now = new Date();
+    const employeeProductToCreate = new this.employeeProductModel({
+      ...createEmployeeProductDto,
+      totalPrice,
+      updatedAt: now,
+    });
 
-      const employee =
-        await this.employeeInterface.findEmployeeById(employeeId);
-      if (!employee) {
-        throw new NotFoundException(`Employee with ID ${employeeId} not found`);
-      }
-
-      const product = await this.productInterface.findProductById(productId);
-      if (!product) {
-        throw new NotFoundException(`Product with ID ${productId} not found`);
-      }
-
-      const totalPrice = product.price * createEmployeeProductDto.quantity;
-
-      const createdEmployeeProduct = new this.employeeProductModel({
-        ...createEmployeeProductDto,
-        totalPrice,
-        updatedAt: new Date(),
+    const payrollByEmpId =
+      await this.payrollInterface.findPayrollByEmployeeId(employeeId);
+    if (!payrollByEmpId || payrollByEmpId.length === 0) {
+      await this.payrollInterface.createPayroll({
+        employeeId,
+        totalQuantity: quantity,
+        totalSalary: totalPrice,
       });
-      return await createdEmployeeProduct.save();
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to create employee product: ' + error.message,
-      );
+    } else {
+      const currentMonth = now.getMonth() + 1;
+      const currentYear = now.getFullYear();
+      const existingPayroll =
+        await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+          currentMonth,
+          currentYear,
+          employeeId,
+        );
+      if (!existingPayroll) {
+        await this.payrollInterface.createPayroll({
+          employeeId,
+          totalQuantity: quantity,
+          totalSalary: totalPrice,
+        });
+      } else {
+        const updatedTotalQuantity = existingPayroll.totalQuantity + quantity;
+        const updatedTotalSalary = existingPayroll.totalSalary + totalPrice;
+        const payrollId = (existingPayroll._id as Types.ObjectId).toString();
+        await this.payrollInterface.updatePayroll(payrollId, {
+          totalQuantity: updatedTotalQuantity,
+          totalSalary: updatedTotalSalary,
+        });
+      }
     }
+
+    return employeeProductToCreate.save();
   }
 
-  async findEmployeeProductById(id: string): Promise<EmployeeProduct | null> {
-    try {
-      const employeeProduct = await this.employeeProductModel
-        .findById(id)
-        .exec();
-      if (!employeeProduct) {
-        throw new NotFoundException('Employee product not found');
-      }
-      return employeeProduct;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to find employee product by ID: ' + error.message,
-      );
-    }
+  async findEmployeeProductById(id: string): Promise<EmployeeProduct> {
+    const employeeProduct = await this.employeeProductModel.findById(id).exec();
+    return throwIfNotFound(
+      employeeProduct,
+      id,
+      'Employee Product',
+    ) as EmployeeProduct;
   }
 
   async findEmployeeProductsByEmployeeId(
     empId: string,
   ): Promise<EmployeeProduct[]> {
-    try {
-      const employee = await this.employeeInterface.findEmployeeById(empId);
-      if (!employee) {
-        throw new NotFoundException(`Employee with ID ${empId} not found`);
-      }
-      const employeeProducts = await this.employeeProductModel
-        .find({ employeeId: new Types.ObjectId(empId) })
-        .exec();
-
-      if (employeeProducts.length === 0) {
-        throw new NotFoundException('No products found for this employee');
-      }
-      return employeeProducts;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to find employee products by employee ID: ' + error.message,
-      );
-    }
+    await this.employeeInterface.findEmployeeById(empId);
+    const employeeProducts = await this.employeeProductModel
+      .find({ employeeId: empId })
+      .exec();
+    return throwIfNotFound(
+      employeeProducts,
+      empId,
+      'Employee Products',
+    ) as EmployeeProduct[];
   }
 
   async findEmployeeProductsByProductId(
     productId: string,
   ): Promise<EmployeeProduct[]> {
-    try {
-      const employee = await this.productInterface.findProductById(productId);
-      if (!employee) {
-        throw new NotFoundException(`Product with ID ${productId} not found`);
-      }
-      const employeeProducts = await this.employeeProductModel
-        .find({ productId: productId })
-        .exec();
-
-      if (employeeProducts.length === 0) {
-        throw new NotFoundException('No products found for this product ID');
-      }
-      return employeeProducts;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to find employee products by product ID: ' + error.message,
-      );
-    }
+    await this.productInterface.findProductById(productId);
+    const employeeProducts = await this.employeeProductModel
+      .find({ productId: productId })
+      .exec();
+    return throwIfNotFound(
+      employeeProducts,
+      productId,
+      'Employee Products',
+    ) as EmployeeProduct[];
   }
 
   async findAllEmployeeProducts(): Promise<EmployeeProduct[]> {
-    try {
-      const employeeProducts = await this.employeeProductModel.find().exec();
-      if (!employeeProducts || employeeProducts.length === 0) {
-        throw new NotFoundException('No employee products found');
-      }
-      return employeeProducts;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to find all employee products: ' + error.message,
-      );
-    }
+    return this.employeeProductModel.find().exec();
   }
 
-  async updateEmployeeProduct(
-    id: string,
-    updateEmployeeProductDto: UpdateEmployeeProductDto,
-  ): Promise<EmployeeProduct | null> {
-    try {
-      const updatedEmployeeProduct = await this.employeeProductModel
-        .findByIdAndUpdate(id, updateEmployeeProductDto, {
+  async updateEmployeeProduct(id: string, updateEmployeeProductDto: UpdateEmployeeProductDto): Promise<EmployeeProduct> {
+    const existingEmployeeProduct = await this.findEmployeeProductById(id);
+
+    // Step 1: Extract old values
+    const oldQuantity = existingEmployeeProduct.quantity;
+    const oldTotalPrice = existingEmployeeProduct.totalPrice;
+    const oldUpdatedAt = existingEmployeeProduct.updatedAt;
+    const oldMonth = oldUpdatedAt.getMonth() + 1;
+    const oldYear = oldUpdatedAt.getFullYear();
+    const employeeId = updateEmployeeProductDto.employeeId ?? existingEmployeeProduct.employeeId;
+
+    // Step 2: Compute new values
+    const productId = updateEmployeeProductDto.productId ?? existingEmployeeProduct.productId;
+    const quantity = updateEmployeeProductDto.quantity ?? oldQuantity;
+    const product = await this.productInterface.findProductById(productId);
+    const totalPrice = product.price * quantity;
+
+    // Step 3: Update EmployeeProduct
+    const updatedEmployeeProduct = await this.employeeProductModel
+      .findByIdAndUpdate(
+        id,
+        {
+          ...updateEmployeeProductDto,
+          totalPrice,
+        },
+        {
           new: true,
           runValidators: true,
-        })
-        .exec();
-      if (!updatedEmployeeProduct) {
-        throw new NotFoundException('Employee product not found for update');
-      }
-      return updatedEmployeeProduct;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to update employee product: ' + error.message,
+        },
+      )
+      .exec();
+
+    const finalProduct = throwIfNotFound(updatedEmployeeProduct,id,'Employee Product') as EmployeeProduct;
+
+    // Step 4: Adjust Payroll for the original month/year
+    const payroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+        oldMonth,
+        oldYear,
+        employeeId,
       );
-    }
+
+    const newTotalQuantity = payroll.totalQuantity - oldQuantity + quantity;
+    const newTotalSalary = payroll.totalSalary - oldTotalPrice + totalPrice;
+    const payrollId = (payroll._id as Types.ObjectId).toString();
+
+    await this.payrollInterface.updatePayroll(payrollId.toString(), {
+      totalQuantity: newTotalQuantity,
+      totalSalary: newTotalSalary,
+    });
+
+    return finalProduct;
   }
 
-  async deleteEmployeeProduct(id: string): Promise<EmployeeProduct | null> {
-    try {
-      const deletedEmployeeProduct = await this.employeeProductModel
-        .findByIdAndDelete(id)
-        .exec();
-      if (!deletedEmployeeProduct) {
-        throw new NotFoundException('Employee product not found for deletion');
-      }
-      return deletedEmployeeProduct;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to delete employee product: ' + error.message,
-      );
-    }
+  async deleteEmployeeProduct(id: string): Promise<EmployeeProduct> {
+    // Step 1: Retrieving the existing employee product
+    const existingEmployeeProduct = await this.findEmployeeProductById(id);
+    const oldQuantity = existingEmployeeProduct.quantity;
+    const oldTotalPrice = existingEmployeeProduct.totalPrice;
+    const oldMonth = existingEmployeeProduct.updatedAt.getMonth() + 1;
+    const oldYear = existingEmployeeProduct.updatedAt.getFullYear();
+    const employeeProductToDelete = await this.employeeProductModel.findByIdAndDelete(id).exec();
+
+    const deletedProduct = throwIfNotFound(employeeProductToDelete, id, 'Employee Product') as EmployeeProduct;
+
+    // Step 2: Updating the payroll for the original month/year
+    const payroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(oldMonth, oldYear, deletedProduct.employeeId);
+    const newTotalQuantity = payroll.totalQuantity - oldQuantity;
+    const newTotalSalary = payroll.totalSalary - oldTotalPrice;
+    const payrollId = (payroll._id as Types.ObjectId).toString();
+    await this.payrollInterface.updatePayroll(payrollId, {
+      totalQuantity: newTotalQuantity,
+      totalSalary: newTotalSalary,
+    });
+    return deletedProduct;
   }
 }

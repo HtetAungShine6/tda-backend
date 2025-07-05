@@ -9,12 +9,15 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { EmployeeModule } from './employee/employee.module';
 import { ProductModule } from './product/product.module';
-import { APP_GUARD } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR } from '@nestjs/core';
 import { AuthenticationGuard } from './auth/guards/authentication/authentication.guard';
 import { AccessTokenGuard } from './auth/guards/access-token/access-token.guard';
 import { JwtModule } from '@nestjs/jwt';
 import { EmployeeProductModule } from './employee-product/employee-product.module';
+import { PayrollModule } from './payroll/payroll.module';
 import jwtConfig from './auth/config/jwt.config';
+import { TransformInterceptor } from './interceptors/transform.interceptor';
+import { AllExceptionsFilter } from './filters/all-exception.filter';
 
 @Module({
   imports: [
@@ -42,7 +45,8 @@ import jwtConfig from './auth/config/jwt.config';
     UserModule,
     EmployeeModule,
     ProductModule,
-    EmployeeProductModule
+    EmployeeProductModule,
+    PayrollModule
   ],
   controllers: [AppController],
   providers: [
@@ -50,6 +54,14 @@ import jwtConfig from './auth/config/jwt.config';
     {
       provide: APP_GUARD,
       useClass: AuthenticationGuard,
+    },
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: TransformInterceptor,
+    },
+    {
+      provide: APP_FILTER,
+      useClass: AllExceptionsFilter,
     },
     AccessTokenGuard,
   ],
