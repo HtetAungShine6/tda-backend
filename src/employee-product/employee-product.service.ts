@@ -81,7 +81,6 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
         });
       }
     }
-
     return employeeProductToCreate.save();
   }
 

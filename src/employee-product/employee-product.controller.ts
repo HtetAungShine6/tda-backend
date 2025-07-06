@@ -50,7 +50,7 @@ export class EmployeeProductController {
     );
   }
 
-  @Get('/get-by-employee-id')
+  @Get('/by-employee-id')
   @ApiOperation({ summary: 'Find employee products by employee ID' })
   @ApiQuery({
     name: 'employeeId',
@@ -67,7 +67,7 @@ export class EmployeeProductController {
     return this.employeeProductInterface.findEmployeeProductsByEmployeeId(employeeId);
   }
 
-  @Get('/get-by-product-id')
+  @Get('/by-product-id')
   @ApiOperation({ summary: 'Find employee products by product ID' })
   @ApiQuery({
     name: 'productId',

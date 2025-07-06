@@ -10,21 +10,17 @@ export class PayrollController {
   ) {}
 
   @Get()
-  async findAllPayrolls() {
-    return this.payrollInterface.findAllPayrolls();
-  }
-
-  @Get('by-date')
-  @ApiQuery({ name: 'employeeId', required: true })
-  @ApiQuery({ name: 'month', required: true, description: '1 = Jan, 12 = Dec' })
-  @ApiQuery({ name: 'year', required: true, description: 'e.g. 2025' })
+  @ApiQuery({ name: 'employeeId', required: false })
+  @ApiQuery({ name: 'month', required: false, description: '1 = Jan, 12 = Dec' })
+  @ApiQuery({ name: 'year', required: false, description: 'e.g. 2025' })
   async findByMonthYearAndEmployeeId(
     @Query('employeeId') employeeId: string,
     @Query('month') month: string,
     @Query('year') year: string,
   ) {
-    if (!employeeId || !month || !year) {
-      throw new BadRequestException('employeeId, month, and year are all required.');
+
+    if (!employeeId && !month && !year) {
+      return this.payrollInterface.findAllPayrolls();
     }
 
     const parsedMonth = parseInt(month, 10);
@@ -43,5 +39,12 @@ export class PayrollController {
       parsedYear,
       employeeId,
     );
+  }
+
+  @Get('/by-employee-id')
+  @ApiOperation({ summary: 'Find payrolls by employee ID' })
+  @ApiQuery({ name: 'employeeId', required: true, description: 'MongoDB _id of the employee' })
+  async findPayrollByEmployeeId(@Query('employeeId') employeeId: string) {
+    return this.payrollInterface.findPayrollByEmployeeId(employeeId);
   }
 }
