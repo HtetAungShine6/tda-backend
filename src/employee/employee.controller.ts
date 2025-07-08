@@ -44,7 +44,7 @@ export class EmployeeController {
   @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Create a new employee' })
   @ApiBody({ type: CreateEmployeeDto })
-  async createEmployee(@Body() createEmployeeDto: CreateEmployeeDto) {
+  createEmployee(@Body() createEmployeeDto: CreateEmployeeDto) {
     return this.employeeInterface.createEmployee(createEmployeeDto);
   }
 
@@ -55,13 +55,15 @@ export class EmployeeController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  async findEmployeeById(@Param('id') id: string) {
+  @ApiResponse({status: 200, description: 'Employee found successfully'})
+  @ApiResponse({status: 404, description: 'Employee not found'})
+  findEmployeeById(@Param('id') id: string) {
     return this.employeeInterface.findEmployeeById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Find all employees' })
-  async findAllEmployees() {
+  findAllEmployees() {
     return this.employeeInterface.findAllEmployees();
   }
 
@@ -79,10 +81,6 @@ export class EmployeeController {
     @Param('id') id: string,
     @Body() updateEmployeeDto: UpdateEmployeeDto,
   ) {
-    const updatedEmployee = await this.employeeInterface.updateEmployee(
-      id,
-      updateEmployeeDto,
-    );
     return this.employeeInterface.updateEmployee(id, updateEmployeeDto);
   }
 
@@ -96,7 +94,7 @@ export class EmployeeController {
     description: 'MongoDB _id of the employee',
   })
   @ApiBody({ type: UpdateEmployeeStatusDto })
-  async updateEmployeeStatus(
+  updateEmployeeStatus(
     @Param('id') id: string,
     @Body() updateEmployeeStatus: UpdateEmployeeStatusDto,
   ) {
@@ -115,7 +113,7 @@ export class EmployeeController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  async deleteEmployee(@Param('id') id: string) {
+  deleteEmployee(@Param('id') id: string) {
     return this.employeeInterface.deleteEmployee(id);
   }
 }

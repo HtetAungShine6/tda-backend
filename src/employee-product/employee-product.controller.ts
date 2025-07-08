@@ -42,7 +42,7 @@ export class EmployeeProductController {
     description: 'Employee product created successfully',
   })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  async createEmployeeProduct(
+  createEmployeeProduct(
     @Body() createEmployeeProductDto: CreateEmployeeProductDto,
   ) {
     return this.employeeProductInterface.createEmployeeProduct(
@@ -63,7 +63,7 @@ export class EmployeeProductController {
     description: 'Employee products found successfully',
   })
   @ApiResponse({ status: 404, description: 'No employee products found' })
-  async findEmployeeProductsByEmployeeId(@Query('employeeId') employeeId: string) {
+  findEmployeeProductsByEmployeeId(@Query('employeeId') employeeId: string) {
     return this.employeeProductInterface.findEmployeeProductsByEmployeeId(employeeId);
   }
 
@@ -80,7 +80,7 @@ export class EmployeeProductController {
     description: 'Employee products found successfully',
   })
   @ApiResponse({ status: 404, description: 'No employee products found' })
-  async findEmployeeProductsByProductId(@Query('productId') productId: string) {
+  findEmployeeProductsByProductId(@Query('productId') productId: string) {
     return this.employeeProductInterface.findEmployeeProductsByProductId(productId);
   }
 
@@ -96,7 +96,7 @@ export class EmployeeProductController {
     description: 'Employee product found successfully',
   })
   @ApiResponse({ status: 404, description: 'Employee product not found' })
-  async findEmployeeProductById(@Param('id') id: string) {
+  findEmployeeProductById(@Param('id') id: string) {
     return this.employeeProductInterface.findEmployeeProductById(id);
   }
 
@@ -107,7 +107,7 @@ export class EmployeeProductController {
     description: 'Employee products found successfully',
   })
   @ApiResponse({ status: 404, description: 'No employee products found' })
-  async findAllEmployeeProducts() {
+  findAllEmployeeProducts() {
     return this.employeeProductInterface.findAllEmployeeProducts();
   }
 
@@ -126,7 +126,7 @@ export class EmployeeProductController {
     description: 'Employee product updated successfully',
   })
   @ApiResponse({ status: 404, description: 'Employee product not found' })
-  async updateEmployeeProduct(
+  updateEmployeeProduct(
     @Param('id') id: string,
     @Body() updateEmployeeProductDto: UpdateEmployeeProductDto,
   ) {
@@ -150,7 +150,7 @@ export class EmployeeProductController {
     description: 'Employee product deleted successfully',
   })
   @ApiResponse({ status: 404, description: 'Employee product not found' })
-  async deleteEmployeeProduct(@Param('id') id: string) {
+  deleteEmployeeProduct(@Param('id') id: string) {
     return this.employeeProductInterface.deleteEmployeeProduct(id);
   }
 }

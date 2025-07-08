@@ -35,7 +35,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Create a new product' })
   @ApiResponse({ status: 201, description: 'Product created successfully' })
   @ApiResponse({ status: 400, description: 'Bad Request' })
-  async createProduct(@Body() createProductDto: CreateProductDto) {
+  createProduct(@Body() createProductDto: CreateProductDto) {
     return this.productInterface.createProduct(createProductDto);
   }
 
@@ -43,14 +43,14 @@ export class ProductController {
   @ApiOperation({ summary: 'Find a product by ID' })
   @ApiResponse({ status: 200, description: 'Product found successfully' })
   @ApiResponse({ status: 404, description: 'Product not found' })
-  async findProductById(@Param('id') id: string) {
+  findProductById(@Param('id') id: string) {
     return this.productInterface.findProductById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Find all products' })
   @ApiResponse({ status: 200, description: 'Products found successfully' })
-  async findAllProducts() {
+  findAllProducts() {
     return this.productInterface.findAllProducts();
   }
 
@@ -60,7 +60,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Update a product by ID' })
   @ApiResponse({ status: 200, description: 'Product updated successfully' })
   @ApiResponse({ status: 404, description: 'Product not found' })
-  async updateProduct(
+  updateProduct(
     @Param('id') id: string,
     @Body() updateProductDto: UpdateProductDto,
   ) {
@@ -73,7 +73,7 @@ export class ProductController {
   @ApiOperation({ summary: 'Delete a product by ID' })
   @ApiResponse({ status: 200, description: 'Product deleted successfully' })
   @ApiResponse({ status: 404, description: 'Product not found' })
-  async deleteProduct(@Param('id') id: string) {
+  deleteProduct(@Param('id') id: string) {
     return this.productInterface.deleteProduct(id);
   }
 }

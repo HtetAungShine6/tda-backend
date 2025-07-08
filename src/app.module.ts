@@ -18,6 +18,9 @@ import { PayrollModule } from './payroll/payroll.module';
 import jwtConfig from './auth/config/jwt.config';
 import { TransformInterceptor } from './interceptors/transform.interceptor';
 import { AllExceptionsFilter } from './filters/all-exception.filter';
+import { ExpenseModule } from './expense/expense.module';
+import { IncomeModule } from './income/income.module';
+import { FinanceModule } from './finance/finance.module';
 
 @Module({
   imports: [
@@ -46,7 +49,10 @@ import { AllExceptionsFilter } from './filters/all-exception.filter';
     EmployeeModule,
     ProductModule,
     EmployeeProductModule,
-    PayrollModule
+    PayrollModule,
+    ExpenseModule,
+    IncomeModule,
+    FinanceModule
   ],
   controllers: [AppController],
   providers: [
