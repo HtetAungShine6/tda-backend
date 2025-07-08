@@ -25,7 +25,6 @@ export class ExpenseController {
 
     @Get('/:id')
     @ApiOperation({ summary: 'Find an expense by ID' })
-    @ApiResponse()
     findExpenseById(@Param('id') id: string) {
         return this.expenseInterface.findExpenseById(id);
     }
