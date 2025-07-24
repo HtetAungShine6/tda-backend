@@ -21,12 +21,17 @@ import { AllExceptionsFilter } from './filters/all-exception.filter';
 import { ExpenseModule } from './expense/expense.module';
 import { IncomeModule } from './income/income.module';
 import { FinanceModule } from './finance/finance.module';
+import appConfig from './config/app.config';
+import databaseConfig from './config/database.config';
+
+const ENV = process.env.NODE_ENV;
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: ['.env', '.env.local'], 
+      envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+      load: [appConfig, databaseConfig],
     }),
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '..', 'public'),

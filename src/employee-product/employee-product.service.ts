@@ -45,7 +45,9 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     const totalPrice = product.price * quantity;
     const now = new Date();
 
-    if(employee.status == EmpStatus.RESIGNED || EmpStatus.INACTIVE || EmpStatus.ON_LEAVE) {
+    if(employee.status == EmpStatus.RESIGNED || 
+      employee.status == EmpStatus.INACTIVE || 
+      employee.status == EmpStatus.ON_LEAVE) {
       throw new InternalServerErrorException("Only active employee can be assigned.");
     }
 
