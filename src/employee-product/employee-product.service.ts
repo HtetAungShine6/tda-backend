@@ -17,7 +17,9 @@ import { PayrollInterface } from 'src/payroll/interface/payroll.interface';
 import { Payroll } from 'src/payroll/employee.payroll.schema';
 import { throwIfNotFound } from 'src/helpers/throwIfNotFound';
 import { PayrollDocument } from 'src/payroll/payroll.document';
-import { find } from 'rxjs';
+import { find, throwError } from 'rxjs';
+import { EmpStatus } from 'src/employee/enums/emp-status.enum';
+import { error } from 'console';
 @Injectable()
 export class EmployeeProductServiceImpl implements EmployeeProductInterface {
   constructor(
@@ -38,10 +40,15 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     createEmployeeProductDto: CreateEmployeeProductDto,
   ): Promise<EmployeeProduct> {
     const { employeeId, productId, quantity } = createEmployeeProductDto;
-    await this.employeeInterface.findEmployeeById(employeeId);
+    const employee = await this.employeeInterface.findEmployeeById(employeeId);
     const product = await this.productInterface.findProductById(productId);
     const totalPrice = product.price * quantity;
     const now = new Date();
+
+    if(employee.status == EmpStatus.RESIGNED || EmpStatus.INACTIVE || EmpStatus.ON_LEAVE) {
+      throw new InternalServerErrorException("Only active employee can be assigned.");
+    }
+
     const employeeProductToCreate = new this.employeeProductModel({
       ...createEmployeeProductDto,
       totalPrice,

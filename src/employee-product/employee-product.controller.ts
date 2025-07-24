@@ -37,11 +37,6 @@ export class EmployeeProductController {
   @ApiBearerAuth('bearer-token')
   @ApiOperation({ summary: 'Create a new employee product' })
   @ApiBody({ type: CreateEmployeeProductDto })
-  @ApiResponse({
-    status: 201,
-    description: 'Employee product created successfully',
-  })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
   createEmployeeProduct(
     @Body() createEmployeeProductDto: CreateEmployeeProductDto,
   ) {
@@ -58,11 +53,6 @@ export class EmployeeProductController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee products found successfully',
-  })
-  @ApiResponse({ status: 404, description: 'No employee products found' })
   findEmployeeProductsByEmployeeId(@Query('employeeId') employeeId: string) {
     return this.employeeProductInterface.findEmployeeProductsByEmployeeId(employeeId);
   }
@@ -75,11 +65,6 @@ export class EmployeeProductController {
     required: true, 
     description: 'MongoDB _id of the product',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee products found successfully',
-  })
-  @ApiResponse({ status: 404, description: 'No employee products found' })
   findEmployeeProductsByProductId(@Query('productId') productId: string) {
     return this.employeeProductInterface.findEmployeeProductsByProductId(productId);
   }
@@ -91,22 +76,12 @@ export class EmployeeProductController {
     required: true,
     description: 'MongoDB _id of the employee-product',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee product found successfully',
-  })
-  @ApiResponse({ status: 404, description: 'Employee product not found' })
   findEmployeeProductById(@Param('id') id: string) {
     return this.employeeProductInterface.findEmployeeProductById(id);
   }
 
   @Get()
   @ApiOperation({ summary: 'Find all employee products' })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee products found successfully',
-  })
-  @ApiResponse({ status: 404, description: 'No employee products found' })
   findAllEmployeeProducts() {
     return this.employeeProductInterface.findAllEmployeeProducts();
   }
@@ -121,11 +96,6 @@ export class EmployeeProductController {
     description: 'MongoDB _id of the employee-product',
   })
   @ApiBody({ type: CreateEmployeeProductDto })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee product updated successfully',
-  })
-  @ApiResponse({ status: 404, description: 'Employee product not found' })
   updateEmployeeProduct(
     @Param('id') id: string,
     @Body() updateEmployeeProductDto: UpdateEmployeeProductDto,
@@ -145,11 +115,6 @@ export class EmployeeProductController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  @ApiResponse({
-    status: 200,
-    description: 'Employee product deleted successfully',
-  })
-  @ApiResponse({ status: 404, description: 'Employee product not found' })
   deleteEmployeeProduct(@Param('id') id: string) {
     return this.employeeProductInterface.deleteEmployeeProduct(id);
   }

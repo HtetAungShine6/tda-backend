@@ -55,8 +55,6 @@ export class EmployeeController {
     required: true,
     description: 'MongoDB _id of the employee',
   })
-  @ApiResponse({status: 200, description: 'Employee found successfully'})
-  @ApiResponse({status: 404, description: 'Employee not found'})
   findEmployeeById(@Param('id') id: string) {
     return this.employeeInterface.findEmployeeById(id);
   }

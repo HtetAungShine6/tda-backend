@@ -58,7 +58,6 @@ export class SignInProvider {
 
         const userObject = user.toObject();
         delete userObject.password; 
-
         return {
             accessToken,
             ...userObject,

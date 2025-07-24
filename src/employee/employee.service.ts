@@ -7,21 +7,29 @@ import { Employee } from './employee.schema';
 import { Model } from 'mongoose';
 import { UpdateEmployeeStatusDto } from './dtos/update-employee-status.dto';
 import { throwIfNotFound } from 'src/helpers/throwIfNotFound';
+import { EmployeeRepo } from './repo/employee.repo';
 
 @Injectable()
 export class EmployeeServiceImpl implements EmployeeInterface {
   constructor(
     @InjectModel(Employee.name)
     private readonly employeeModel: Model<Employee>,
+
+    private readonly employeeRepo: EmployeeRepo
   ) {}
 
   async createEmployee(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
-    return this.employeeModel.create(createEmployeeDto);
+    return this.employeeRepo.createEmployee(createEmployeeDto);
   }
 
+  // async findEmployeeById(id: string): Promise<Employee> {
+  //   const employee = await this.employeeModel.findById(id).exec();
+  //   return throwIfNotFound(employee, id, 'Employee') as Employee;
+  // }
+
   async findEmployeeById(id: string): Promise<Employee> {
-    const employee = await this.employeeModel.findById(id).exec();
-    return throwIfNotFound(employee, id, 'Employee') as Employee;
+      const employee = await this.employeeRepo.findEmployeeById(id);
+      return throwIfNotFound(employee, id, 'Employee') as Employee;
   }
 
   async findAllEmployees(): Promise<Employee[]> {

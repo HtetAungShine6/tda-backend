@@ -14,6 +14,7 @@ import { HashingProvider } from 'src/auth/providers/hashing.provider';
 import { read } from 'fs';
 import { UserInterface } from './interfaces/user.interface';
 import { CreateUserProvider } from './providers/create-user.provider';
+import { throwIfNotFound } from 'src/helpers/throwIfNotFound';
 
 @Injectable()
 export class UserServiceImpl implements UserInterface {
@@ -38,20 +39,10 @@ export class UserServiceImpl implements UserInterface {
     }
   }
 
-  async findUserByEmail(email: string): Promise<User | null> {
+  async findUserByEmail(email: string): Promise<User> {
     email = email.replace('%40', '@');
-    try {
-      const user = await this.userModel.findOne({ email }).exec();
-      if (!user) {
-        throw new NotFoundException('User not found');
-      }
-      return user;
-    } catch (error) {
-      throw new InternalServerErrorException(
-        'Failed to find user by email: ',
-        error,
-      );
-    }
+    const user = await this.userModel.findOne({ email }).exec();
+    return throwIfNotFound(user, email, 'User') as User;
   }
 
   async findUserById(id: string): Promise<Partial<User> | null> {
