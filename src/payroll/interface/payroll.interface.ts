@@ -6,7 +6,7 @@ import { Payroll } from "../employee.payroll.schema";
 export interface PayrollInterface {
     // createPayroll(employeeId: string, quantity: number, totalPrice: number): Promise<Payroll>;
     createPayroll(createPayrollDto: CreatePayrollDto): Promise<Payroll>;
-    findPayrollByMonthYearAndEmployeeId(month: number, year: number, employeeId: string): Promise<Payroll>;
+    findPayrollByMonthYearAndEmployeeId(month: number, year: number, employeeId: string): Promise<Payroll | null>;
     findPayrollByMonthAndYear(month: number, year: number): Promise<Payroll[]>;
     findPayrollByEmployeeId(employeeId: string): Promise<Payroll[]>;
     findAllPayrolls(): Promise<Payroll[]>;

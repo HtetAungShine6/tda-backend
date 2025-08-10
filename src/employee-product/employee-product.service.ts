@@ -20,6 +20,7 @@ import { PayrollDocument } from 'src/payroll/payroll.document';
 import { find, throwError } from 'rxjs';
 import { EmpStatus } from 'src/employee/enums/emp-status.enum';
 import { error } from 'console';
+import { Employee } from 'src/employee/employee.schema';
 @Injectable()
 export class EmployeeProductServiceImpl implements EmployeeProductInterface {
   constructor(
@@ -45,12 +46,14 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     const totalPrice = product.price * quantity;
     const now = new Date();
 
-    if(
-      employee.status == EmpStatus.RESIGNED || 
-      employee.status == EmpStatus.INACTIVE || 
+    if (
+      employee.status == EmpStatus.RESIGNED ||
+      employee.status == EmpStatus.INACTIVE ||
       employee.status == EmpStatus.ON_LEAVE
     ) {
-      throw new InternalServerErrorException("Only active employee can be assigned.");
+      throw new InternalServerErrorException(
+        'Only active employee can be assigned.',
+      );
     }
 
     const employeeProductToCreate = new this.employeeProductModel({
@@ -59,8 +62,7 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
       updatedAt: now,
     });
 
-    const payrollByEmpId =
-      await this.payrollInterface.findPayrollByEmployeeId(employeeId);
+    const payrollByEmpId = await this.payrollInterface.findPayrollByEmployeeId(employeeId);
     if (!payrollByEmpId || payrollByEmpId.length === 0) {
       await this.payrollInterface.createPayroll({
         employeeId,
@@ -70,8 +72,7 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     } else {
       const currentMonth = now.getMonth() + 1;
       const currentYear = now.getFullYear();
-      const existingPayroll =
-        await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+      const existingPayroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
           currentMonth,
           currentYear,
           employeeId,
@@ -93,6 +94,82 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
       }
     }
     return employeeProductToCreate.save();
+  }
+
+  // private async validateEmployeeStatus(employeeId: string): Promise<Employee> {
+  //   const employee = await this.employeeInterface.findEmployeeById(employeeId);
+  //   if (
+  //     employee.status === EmpStatus.RESIGNED ||
+  //     employee.status === EmpStatus.ON_LEAVE ||
+  //     employee.status === EmpStatus.INACTIVE
+  //   ) {
+  //     throw new InternalServerErrorException(
+  //       'Only active employee can be assigned.',
+  //     );
+  //   }
+
+  //   return employee;
+  // }
+
+  // private async handlePayroll(
+  //   employeeId: string,
+  //   quantity: number,
+  //   totalPrice: number,
+  //   now: Date,
+  // ): Promise<void> {
+  //   const payrollByEmpId =
+  //     await this.payrollInterface.findPayrollByEmployeeId(employeeId);
+  //   if (!payrollByEmpId || payrollByEmpId.length === 0) {
+  //     await this.payrollInterface.createPayroll({
+  //       employeeId,
+  //       totalQuantity: quantity,
+  //       totalSalary: totalPrice,
+  //     });
+  //     return;
+  //   }
+  //   const currentMonth = now.getMonth() + 1;
+  //   const currentYear = now.getFullYear();
+  //   const existingPayroll =
+  //     await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+  //       currentMonth,
+  //       currentYear,
+  //       employeeId,
+  //     );
+  //   if (!existingPayroll) {
+  //     await this.payrollInterface.createPayroll({
+  //       employeeId,
+  //       totalQuantity: quantity,
+  //       totalSalary: totalPrice,
+  //     });
+  //   } else {
+  //   }
+  // }
+
+  // private async createPayroll(
+  //   employeeId: string,
+  //   totalQuantity: number,
+  //   totalSalary: number,
+  // ) {
+  //   await this.payrollInterface.createPayroll({
+  //     employeeId,
+  //     totalQuantity: totalQuantity,
+  //     totalSalary,
+  //   });
+  // }
+
+  private async updateExistingPayroll(
+    payrollId: Types.ObjectId,
+    quantity: number,
+    totalPrice: number,
+    existingPayroll: Payroll,
+  ): Promise<void> {
+    const updatedTotalQuantity = existingPayroll.totalQuantity + quantity;
+    const updatedTotalSalary = existingPayroll.totalSalary + totalPrice;
+
+    await this.payrollInterface.updatePayroll(payrollId.toString(), {
+      totalQuantity: updatedTotalQuantity,
+      totalSalary: updatedTotalSalary,
+    });
   }
 
   async findEmployeeProductById(id: string): Promise<EmployeeProduct> {
@@ -136,7 +213,10 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     return this.employeeProductModel.find().exec();
   }
 
-  async updateEmployeeProduct(id: string, updateEmployeeProductDto: UpdateEmployeeProductDto): Promise<EmployeeProduct> {
+  async updateEmployeeProduct(
+    id: string,
+    updateEmployeeProductDto: UpdateEmployeeProductDto,
+  ): Promise<EmployeeProduct> {
     const existingEmployeeProduct = await this.findEmployeeProductById(id);
 
     // Step 1: Extract old values
@@ -145,10 +225,12 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     const oldUpdatedAt = existingEmployeeProduct.updatedAt;
     const oldMonth = oldUpdatedAt.getMonth() + 1;
     const oldYear = oldUpdatedAt.getFullYear();
-    const employeeId = updateEmployeeProductDto.employeeId ?? existingEmployeeProduct.employeeId;
+    const employeeId =
+      updateEmployeeProductDto.employeeId ?? existingEmployeeProduct.employeeId;
 
     // Step 2: Compute new values
-    const productId = updateEmployeeProductDto.productId ?? existingEmployeeProduct.productId;
+    const productId =
+      updateEmployeeProductDto.productId ?? existingEmployeeProduct.productId;
     const quantity = updateEmployeeProductDto.quantity ?? oldQuantity;
     const product = await this.productInterface.findProductById(productId);
     const totalPrice = product.price * quantity;
@@ -168,14 +250,18 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
       )
       .exec();
 
-    const finalProduct = throwIfNotFound(updatedEmployeeProduct,id,'Employee Product') as EmployeeProduct;
+    const finalProduct = throwIfNotFound(
+      updatedEmployeeProduct,
+      id,
+      'Employee Product',
+    ) as EmployeeProduct;
 
     // Step 4: Adjust Payroll for the original month/year
     const payroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
         oldMonth,
         oldYear,
         employeeId,
-      );
+    ) as Payroll;
 
     const newTotalQuantity = payroll.totalQuantity - oldQuantity + quantity;
     const newTotalSalary = payroll.totalSalary - oldTotalPrice + totalPrice;
@@ -196,12 +282,23 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     const oldTotalPrice = existingEmployeeProduct.totalPrice;
     const oldMonth = existingEmployeeProduct.updatedAt.getMonth() + 1;
     const oldYear = existingEmployeeProduct.updatedAt.getFullYear();
-    const employeeProductToDelete = await this.employeeProductModel.findByIdAndDelete(id).exec();
+    const employeeProductToDelete = await this.employeeProductModel
+      .findByIdAndDelete(id)
+      .exec();
 
-    const deletedProduct = throwIfNotFound(employeeProductToDelete, id, 'Employee Product') as EmployeeProduct;
+    const deletedProduct = throwIfNotFound(
+      employeeProductToDelete,
+      id,
+      'Employee Product',
+    ) as EmployeeProduct;
 
     // Step 2: Updating the payroll for the original month/year
-    const payroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(oldMonth, oldYear, deletedProduct.employeeId);
+    const payroll =
+      await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+        oldMonth,
+        oldYear,
+        deletedProduct.employeeId,
+      ) as Payroll;
     const newTotalQuantity = payroll.totalQuantity - oldQuantity;
     const newTotalSalary = payroll.totalSalary - oldTotalPrice;
     const payrollId = (payroll._id as Types.ObjectId).toString();
@@ -211,4 +308,6 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     });
     return deletedProduct;
   }
+
+  // Let me get back to it after exam xD
 }

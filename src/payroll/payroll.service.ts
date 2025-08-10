@@ -33,16 +33,15 @@ export class PayrollServiceImpl implements PayrollInterface {
     return throwIfNotFound(payrolls, employeeId, 'Payrolls');
   }
 
-  async findPayrollByMonthYearAndEmployeeId(month: number, year: number, employeeId: string): Promise<Payroll> {
+  async findPayrollByMonthYearAndEmployeeId(month: number, year: number, employeeId: string): Promise<Payroll | null> {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
-    const payroll = await this.payrollModel
+    return await this.payrollModel
       .findOne({
         employeeId,
         period: { $gte: startDate, $lt: endDate },
       })
       .exec();
-    return throwIfNotFound(payroll, employeeId, 'Date of Payroll') as Payroll;
   }
 
   async findPayrollByMonthAndYear(month: number, year: number): Promise<Payroll[]> {
