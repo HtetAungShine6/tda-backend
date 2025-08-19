@@ -8,6 +8,7 @@ import { CreateIncomeDto } from './dtos/create-income.dto';
 import { UpdateIncomeDto } from './dtos/update-income.dto';
 import { FinanceInterface } from 'src/finance/interface/finance.interface';
 import { create } from 'domain';
+import { Finance } from 'src/finance/finance.schema';
 
 @Injectable()
 export class IncomeServiceImpl implements IncomeInterface {
@@ -61,7 +62,7 @@ export class IncomeServiceImpl implements IncomeInterface {
     })
     .exec();
 
-    const oldFinance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear);
+    const oldFinance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
     const newTotalIncome = oldFinance.totalIncome - oldAmount + updatedAmount;
     const financeId = (oldFinance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
@@ -79,7 +80,7 @@ export class IncomeServiceImpl implements IncomeInterface {
 
     const incomeToDelete = await this.incomeModel.findByIdAndDelete(id).exec();
 
-    const finance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear)
+    const finance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
     const newTotalIncome = finance.totalIncome - oldAmount
     const financeId = (finance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {

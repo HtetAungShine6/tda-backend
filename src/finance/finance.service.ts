@@ -27,15 +27,14 @@ export class FinanceServiceImpl implements FinanceInterface {
   async findFinanceByMonthAndYear(
     month: number,
     year: number,
-  ): Promise<Finance> {
+  ): Promise<Finance | null> {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
-    const finance = await this.financeModel
+    return await this.financeModel
       .findOne({
         date: { $gte: startDate, $lt: endDate },
       })
       .exec();
-    return throwIfNotFound(finance, `${month}-${year}`, 'Finance') as Finance;
   }
 
   async findAllFinances(): Promise<Finance[]> {
@@ -74,8 +73,8 @@ export class FinanceServiceImpl implements FinanceInterface {
     month: number,
     year: number,
   ): Promise<ProfitLossResponse> {
-    const finance = await this.findFinanceByMonthAndYear(month, year);
-    return this.calculateProfitAndLoss(finance)
+    const finance = await this.findFinanceByMonthAndYear(month, year) as Finance;
+    return this.calculateProfitAndLoss(finance);
   }
 
   async deleteFinance(id: string): Promise<Finance> {

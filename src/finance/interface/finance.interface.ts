@@ -6,7 +6,7 @@ import { Finance } from "../finance.schema";
 export interface FinanceInterface {
     createFinance(createFinanceDto: CreateFinanceDto): Promise<Finance>;
     findFinanceById(id: string): Promise<Finance>;
-    findFinanceByMonthAndYear(month: number, year: number): Promise<Finance>;
+    findFinanceByMonthAndYear(month: number, year: number): Promise<Finance | null>;
     findAllFinances(): Promise<Finance[]>;
     updateFinance(id: string, updateFinanceDto: UpdateFinanceDto): Promise<Finance>;
     findAllTimeProfitAndLoss(): Promise<ProfitLossResponse>;

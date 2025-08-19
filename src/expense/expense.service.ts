@@ -7,6 +7,7 @@ import { throwIfNotFound } from 'src/helpers/throwIfNotFound';
 import { UpdateExpenseDto } from './dtos/update-expense.dto';
 import { FinanceInterface } from 'src/finance/interface/finance.interface';
 import { CreateExpenseDto } from './dtos/create-expense.dto';
+import { Finance } from 'src/finance/finance.schema';
 
 @Injectable()
 export class ExpenseServiceImpl implements ExpenseInterface {
@@ -68,7 +69,7 @@ export class ExpenseServiceImpl implements ExpenseInterface {
       })
       .exec();
 
-    const oldFinance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear);
+    const oldFinance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
     const newTotalExpense = oldFinance.totalExpense - oldAmount + updatedAmount;
     const financeId = (oldFinance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
@@ -86,7 +87,7 @@ export class ExpenseServiceImpl implements ExpenseInterface {
 
     const expense = await this.expenseModel.findByIdAndDelete(id).exec();
 
-    const finance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear)
+    const finance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
     const newTotalExpense = finance.totalExpense - oldAmount
     const financeId = (finance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
