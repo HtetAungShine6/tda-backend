@@ -209,8 +209,20 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     ) as EmployeeProduct[];
   }
 
-  async findAllEmployeeProducts(): Promise<EmployeeProduct[]> {
-    return this.employeeProductModel.find().exec();
+  // async findAllEmployeeProducts(): Promise<EmployeeProduct[]> {
+  //   return this.employeeProductModel.find().exec();
+  // }
+  async findAllEmployeeProducts(page = 1, limit = 10): Promise<{ data: EmployeeProduct[]; total: number; page: number; limit: number, totalPages: number }> {
+    const skip = (page - 1) * limit;
+
+    const [data, total] = await Promise.all([
+      this.employeeProductModel.find().skip(skip).limit(limit).exec(),
+      this.employeeProductModel.countDocuments().exec(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return { data, total, page, limit, totalPages };
   }
 
   async updateEmployeeProduct(

@@ -6,7 +6,8 @@ import { Employee } from '../employee.schema';
 export interface EmployeeInterface {
   createEmployee(createEmployeeDto: CreateEmployeeDto): Promise<Employee>;
   findEmployeeById(id: string): Promise<Employee>;
-  findAllEmployees(): Promise<Employee[]>;
+  // findAllEmployees(): Promise<Employee[]>;
+  findAllEmployees(page?: number, limit?: number): Promise<{ data: Employee[]; total: number; page: number; limit: number, totalPages: number }>;
   updateEmployee(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee>;
   deleteEmployee(id: string): Promise<Employee>;
   updateEmployeeStatus(id: string, status: UpdateEmployeeStatusDto): Promise<Employee>;

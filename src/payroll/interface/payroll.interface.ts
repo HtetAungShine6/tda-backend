@@ -9,6 +9,7 @@ export interface PayrollInterface {
     findPayrollByMonthYearAndEmployeeId(month: number, year: number, employeeId: string): Promise<Payroll | null>;
     findPayrollByMonthAndYear(month: number, year: number): Promise<Payroll[]>;
     findPayrollByEmployeeId(employeeId: string): Promise<Payroll[]>;
-    findAllPayrolls(): Promise<Payroll[]>;
+    // findAllPayrolls(): Promise<Payroll[]>;
+    findAllPayrolls(page?: number, limit?: number): Promise<{ data: Payroll[]; total: number; page: number; limit: number, totalPages: number }>;
     updatePayroll(id: string, updatePayrollDto: UpdatePayrollDto): Promise<Payroll>;
 }

@@ -32,9 +32,22 @@ export class EmployeeServiceImpl implements EmployeeInterface {
       return throwIfNotFound(employee, id, 'Employee') as Employee;
   }
 
-  async findAllEmployees(): Promise<Employee[]> {
-    return this.employeeModel.find().exec();
-  }
+  // async findAllEmployees(): Promise<Employee[]> {
+  //   return this.employeeModel.find().exec();
+  // }
+
+  async findAllEmployees(page = 1, limit = 10): Promise<{ data: Employee[]; total: number; page: number; limit: number, totalPages: number }> {
+  const skip = (page - 1) * limit;
+
+  const [data, total] = await Promise.all([
+    this.employeeModel.find().skip(skip).limit(limit).exec(),
+    this.employeeModel.countDocuments().exec(),
+  ]);
+
+  const totalPages = Math.ceil(total / limit);
+
+  return { data, total, page, limit, totalPages };
+}
 
   async updateEmployee(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
     const employeeToUpdate = await this.employeeModel.findByIdAndUpdate(id, updateEmployeeDto, {

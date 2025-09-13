@@ -21,13 +21,17 @@ import {
   ApiExtraModels,
   ApiOperation,
   ApiParam,
+  ApiQuery,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
 import { UpdateEmployeeStatusDto } from './dtos/update-employee-status.dto';
-import { ApiErrorResponse, ApiSuccessResponse } from 'src/helpers/swagger.helper';
+import {
+  ApiErrorResponse,
+  ApiSuccessResponse,
+} from 'src/helpers/swagger.helper';
 import { Employee } from './employee.schema';
 
 @ApiTags('Employee')
@@ -59,10 +63,18 @@ export class EmployeeController {
     return this.employeeInterface.findEmployeeById(id);
   }
 
+  // @Get()
+  // @ApiOperation({ summary: 'Find all employees' })
+  // findAllEmployees() {
+  //   return this.employeeInterface.findAllEmployees();
+  // }
+
   @Get()
-  @ApiOperation({ summary: 'Find all employees' })
-  findAllEmployees() {
-    return this.employeeInterface.findAllEmployees();
+  @ApiOperation({ summary: 'Find all employees with pagination' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (default is 1)', type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page (default is 10)', type: Number, example: 10 })
+  findAllEmployees(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.employeeInterface.findAllEmployees(Number(page), Number(limit));
   }
 
   @Patch('/:id')

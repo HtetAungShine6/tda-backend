@@ -23,11 +23,14 @@ export class PayrollController {
     description: '1 = Jan, 12 = Dec',
   })
   @ApiQuery({ name: 'year', required: false, description: 'e.g. 2025' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (default is 1)', type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page (default is 10)', type: Number, example: 10 })
   findByMonthYearAndEmployeeId(
     @Query('employeeId') employeeId: string,
     @Query('month') month: string,
     @Query('year') year: string,
   ) {
+
     if (!employeeId && !month && !year) {
       return this.payrollInterface.findAllPayrolls();
     }

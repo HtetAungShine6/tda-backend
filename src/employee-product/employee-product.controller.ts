@@ -80,10 +80,18 @@ export class EmployeeProductController {
     return this.employeeProductInterface.findEmployeeProductById(id);
   }
 
+  // @Get()
+  // @ApiOperation({ summary: 'Find all employee products' })
+  // findAllEmployeeProducts() {
+  //   return this.employeeProductInterface.findAllEmployeeProducts();
+  // }
+
   @Get()
-  @ApiOperation({ summary: 'Find all employee products' })
-  findAllEmployeeProducts() {
-    return this.employeeProductInterface.findAllEmployeeProducts();
+  @ApiOperation({ summary: 'Find all employee products with pagination' })
+  @ApiQuery({ name: 'page', required: false, description: 'Page number (default is 1)', type: Number, example: 1 })
+  @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page (default is 10)', type: Number, example: 10 })
+  findAllEmployeeProducts(@Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.employeeProductInterface.findAllEmployeeProducts(Number(page), Number(limit));
   }
 
   @Patch('/:id')
