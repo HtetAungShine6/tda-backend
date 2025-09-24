@@ -71,10 +71,11 @@ export class EmployeeController {
 
   @Get()
   @ApiOperation({ summary: 'Find all employees with pagination' })
+  @ApiQuery({ name: 'empName', required: false, description: 'Employee name to filter', type: String })
   @ApiQuery({ name: 'page', required: false, description: 'Page number (default is 1)', type: Number, example: 1 })
   @ApiQuery({ name: 'limit', required: false, description: 'Number of items per page (default is 10)', type: Number, example: 10 })
-  findAllEmployees(@Query('page') page = 1, @Query('limit') limit = 10) {
-    return this.employeeInterface.findAllEmployees(Number(page), Number(limit));
+  findAllEmployees(@Query('empName') empName?: string, @Query('page') page = 1, @Query('limit') limit = 10) {
+    return this.employeeInterface.findAllEmployees(empName, Number(page), Number(limit));
   }
 
   @Patch('/:id')

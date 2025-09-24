@@ -25,7 +25,11 @@ export class IncomeServiceImpl implements IncomeInterface {
     const currentMonth = date.getMonth() + 1;
     const currentYear = date.getFullYear();
     const incomeAmount = createIncomeDto.amount;
-    const existingFinance = await this.financeInterface.findFinanceByMonthAndYear(currentMonth, currentYear);
+    const existingFinance =
+      await this.financeInterface.findFinanceByMonthAndYear(
+        currentMonth,
+        currentYear,
+      );
     if (!existingFinance) {
       await this.financeInterface.createFinance({
         totalIncome: incomeAmount,
@@ -47,7 +51,28 @@ export class IncomeServiceImpl implements IncomeInterface {
     return this.incomeModel.find().exec();
   }
 
-  async updateIncome(id: string, updateIncomeDto: UpdateIncomeDto): Promise<Income> {
+  async findIncomeWithMonthAndYear(
+    month: number,
+    year: never,
+  ): Promise<Income[]> {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 1);
+    const expense = await this.incomeModel
+      .find({
+        date: { $gte: startDate, $lt: endDate },
+      })
+      .exec();
+    return throwIfNotFound(
+      expense,
+      `${month}-${year}`,
+      'Income',
+    ) as Income[];
+  }
+
+  async updateIncome(
+    id: string,
+    updateIncomeDto: UpdateIncomeDto,
+  ): Promise<Income> {
     const existingIncome = await this.findIncomeById(id);
     const oldAmount = existingIncome.amount;
     const updatedDate = new Date(updateIncomeDto.date ?? existingIncome.date);
@@ -56,36 +81,43 @@ export class IncomeServiceImpl implements IncomeInterface {
     const originalMonth = originalDate.getMonth() + 1;
     const originalYear = originalDate.getFullYear();
 
-    const incomeToUpdate = await this.incomeModel.findByIdAndUpdate(id, updateIncomeDto, {
+    const incomeToUpdate = await this.incomeModel
+      .findByIdAndUpdate(id, updateIncomeDto, {
         new: true,
         runValidators: true,
-    })
-    .exec();
+      })
+      .exec();
 
-    const oldFinance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
+    const oldFinance = (await this.financeInterface.findFinanceByMonthAndYear(
+      originalMonth,
+      originalYear,
+    )) as Finance;
     const newTotalIncome = oldFinance.totalIncome - oldAmount + updatedAmount;
     const financeId = (oldFinance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
-        totalIncome: newTotalIncome
-    })
+      totalIncome: newTotalIncome,
+    });
 
     return throwIfNotFound(incomeToUpdate, id, 'Income') as Income;
   }
 
   async deleteIncome(id: string): Promise<Income> {
-    const existingIncome = await this.findIncomeById(id)
+    const existingIncome = await this.findIncomeById(id);
     const oldAmount = existingIncome.amount;
     const originalMonth = existingIncome.date.getMonth() + 1;
     const originalYear = existingIncome.date.getFullYear();
 
     const incomeToDelete = await this.incomeModel.findByIdAndDelete(id).exec();
 
-    const finance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
-    const newTotalIncome = finance.totalIncome - oldAmount
+    const finance = (await this.financeInterface.findFinanceByMonthAndYear(
+      originalMonth,
+      originalYear,
+    )) as Finance;
+    const newTotalIncome = finance.totalIncome - oldAmount;
     const financeId = (finance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
-        totalIncome: newTotalIncome
-    })
+      totalIncome: newTotalIncome,
+    });
     return throwIfNotFound(incomeToDelete, id, 'Income') as Income;
   }
 }

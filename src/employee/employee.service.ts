@@ -36,12 +36,17 @@ export class EmployeeServiceImpl implements EmployeeInterface {
   //   return this.employeeModel.find().exec();
   // }
 
-  async findAllEmployees(page = 1, limit = 10): Promise<{ data: Employee[]; total: number; page: number; limit: number, totalPages: number }> {
+  async findAllEmployees(empName?: string, page = 1, limit = 10): Promise<{ data: Employee[]; total: number; page: number; limit: number, totalPages: number }> {
   const skip = (page - 1) * limit;
+  const filter: any = {};
+
+  if (empName) {
+    filter.name = { $regex: empName, $options: 'i' }; 
+  }
 
   const [data, total] = await Promise.all([
-    this.employeeModel.find().skip(skip).limit(limit).exec(),
-    this.employeeModel.countDocuments().exec(),
+    this.employeeModel.find(filter).skip(skip).limit(limit).exec(),
+    this.employeeModel.countDocuments(filter).exec(),
   ]);
 
   const totalPages = Math.ceil(total / limit);

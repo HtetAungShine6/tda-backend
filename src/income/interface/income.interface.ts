@@ -6,6 +6,7 @@ export interface IncomeInterface {
     createIncome(createIncomeDto: CreateIncomeDto): Promise<Income>;
     findIncomeById(id: string): Promise<Income>;
     findAllIncomes(): Promise<Income[]>;
+    findIncomeWithMonthAndYear(month: number, year: number): Promise<Income[]>;
     updateIncome(id: string, updateIncomeDto: UpdateIncomeDto): Promise<Income>;
     deleteIncome(id: string): Promise<Income>;
 }

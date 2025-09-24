@@ -50,6 +50,24 @@ export class ExpenseServiceImpl implements ExpenseInterface {
     return this.expenseModel.find().exec();
   }
 
+  async findExpensesWithMonthAndYear(
+    month: number,
+    year: number,
+  ): Promise<Expense[]> {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 1);
+    const expense = await this.expenseModel
+      .find({
+        date: { $gte: startDate, $lt: endDate },
+      })
+      .exec();
+    return throwIfNotFound(
+      expense,
+      `${month}-${year}`,
+      'Exoense',
+    ) as Expense[];
+  }
+
   async updateExpense(
     id: string,
     updateExpenseDto: UpdateExpenseDto,
@@ -69,30 +87,36 @@ export class ExpenseServiceImpl implements ExpenseInterface {
       })
       .exec();
 
-    const oldFinance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
+    const oldFinance = (await this.financeInterface.findFinanceByMonthAndYear(
+      originalMonth,
+      originalYear,
+    )) as Finance;
     const newTotalExpense = oldFinance.totalExpense - oldAmount + updatedAmount;
     const financeId = (oldFinance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
-        totalExpense: newTotalExpense
-    })
+      totalExpense: newTotalExpense,
+    });
 
     return throwIfNotFound(expenseToUpdate, id, 'Expense') as Expense;
   }
 
   async deleteExpense(id: string): Promise<Expense> {
-    const existingExpense = await this.findExpenseById(id)
+    const existingExpense = await this.findExpenseById(id);
     const oldAmount = existingExpense.amount;
     const originalMonth = existingExpense.date.getMonth() + 1;
     const originalYear = existingExpense.date.getFullYear();
 
     const expense = await this.expenseModel.findByIdAndDelete(id).exec();
 
-    const finance = await this.financeInterface.findFinanceByMonthAndYear(originalMonth, originalYear) as Finance;
-    const newTotalExpense = finance.totalExpense - oldAmount
+    const finance = (await this.financeInterface.findFinanceByMonthAndYear(
+      originalMonth,
+      originalYear,
+    )) as Finance;
+    const newTotalExpense = finance.totalExpense - oldAmount;
     const financeId = (finance._id as Types.ObjectId).toString();
     await this.financeInterface.updateFinance(financeId, {
-        totalExpense: newTotalExpense
-    })
+      totalExpense: newTotalExpense,
+    });
     return throwIfNotFound(expense, id, 'Expense') as Expense;
   }
 }

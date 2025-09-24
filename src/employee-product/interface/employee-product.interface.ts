@@ -9,6 +9,7 @@ export interface EmployeeProductInterface {
     findAllEmployeeProducts(page?: number, limit?: number): Promise<{ data: EmployeeProduct[]; total: number; page: number; limit: number, totalPages: number }>;
     findEmployeeProductsByEmployeeId(employeeId: string): Promise<EmployeeProduct[]>;
     findEmployeeProductsByProductId(productId: string): Promise<EmployeeProduct[]>;
+    // findEmployeeProductByMonthAndYear(month: number, year: number): Promise<EmployeeProduct[]>;
     updateEmployeeProduct(id: string, updateEmployeeProductDto: UpdateEmployeeProductDto): Promise<EmployeeProduct>;
     deleteEmployeeProduct(id: string): Promise<EmployeeProduct>;
 }

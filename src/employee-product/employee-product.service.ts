@@ -62,7 +62,8 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
       updatedAt: now,
     });
 
-    const payrollByEmpId = await this.payrollInterface.findPayrollByEmployeeId(employeeId);
+    const payrollByEmpId =
+      await this.payrollInterface.findPayrollByEmployeeId(employeeId);
     if (!payrollByEmpId || payrollByEmpId.length === 0) {
       await this.payrollInterface.createPayroll({
         employeeId,
@@ -72,7 +73,8 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     } else {
       const currentMonth = now.getMonth() + 1;
       const currentYear = now.getFullYear();
-      const existingPayroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+      const existingPayroll =
+        await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
           currentMonth,
           currentYear,
           employeeId,
@@ -212,7 +214,16 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
   // async findAllEmployeeProducts(): Promise<EmployeeProduct[]> {
   //   return this.employeeProductModel.find().exec();
   // }
-  async findAllEmployeeProducts(page = 1, limit = 10): Promise<{ data: EmployeeProduct[]; total: number; page: number; limit: number, totalPages: number }> {
+  async findAllEmployeeProducts(
+    page = 1,
+    limit = 10,
+  ): Promise<{
+    data: EmployeeProduct[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
     const skip = (page - 1) * limit;
 
     const [data, total] = await Promise.all([
@@ -224,6 +235,51 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
 
     return { data, total, page, limit, totalPages };
   }
+
+  // async findEmployeeProductByMonthAndYear(
+  //   month: number,
+  //   year: number,
+  // ): Promise<EmployeeProduct[]> {
+  //   const startDate = new Date(year, month - 1, 1);
+  //   const endDate = new Date(year, month, 1);
+
+  //   const employeeProducts = await this.employeeProductModel
+  //     .find({ updatedAt: { $gte: startDate, $lt: endDate } })
+  //     .exec();
+
+  //   return employeeProducts; 
+  // }
+
+//   async findEmployeeProductByMonthAndYear(
+//   month: number,
+//   year: number,
+// ): Promise<EmployeeProduct[]> {
+//   try {
+//     // Create date range for the entire month
+//     const startDate = new Date(year, month - 1, 1);
+//     const endDate = new Date(year, month, 1); 
+    
+//     console.log(`Searching for employee products between ${startDate} and ${endDate}`);
+    
+//     const employeeProducts = await this.employeeProductModel
+//       .find({ 
+//         updatedAt: { 
+//           $gte: startDate, 
+//           $lte: endDate  // Changed from $lt to $lte
+//         } 
+//       })
+//       .exec();
+
+//     console.log(`Found ${employeeProducts.length} employee products`);
+    
+//     return employeeProducts;
+//   } catch (error) {
+//     console.error('Error in findEmployeeProductByMonthAndYear:', error);
+//     throw new InternalServerErrorException(
+//       `Failed to fetch employee products for ${month}/${year}: ${error.message}`
+//     );
+//   }
+// }
 
   async updateEmployeeProduct(
     id: string,
@@ -269,11 +325,12 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
     ) as EmployeeProduct;
 
     // Step 4: Adjust Payroll for the original month/year
-    const payroll = await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+    const payroll =
+      (await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
         oldMonth,
         oldYear,
         employeeId,
-    ) as Payroll;
+      )) as Payroll;
 
     const newTotalQuantity = payroll.totalQuantity - oldQuantity + quantity;
     const newTotalSalary = payroll.totalSalary - oldTotalPrice + totalPrice;
@@ -306,11 +363,11 @@ export class EmployeeProductServiceImpl implements EmployeeProductInterface {
 
     // Step 2: Updating the payroll for the original month/year
     const payroll =
-      await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
+      (await this.payrollInterface.findPayrollByMonthYearAndEmployeeId(
         oldMonth,
         oldYear,
         deletedProduct.employeeId,
-      ) as Payroll;
+      )) as Payroll;
     const newTotalQuantity = payroll.totalQuantity - oldQuantity;
     const newTotalSalary = payroll.totalSalary - oldTotalPrice;
     const payrollId = (payroll._id as Types.ObjectId).toString();
