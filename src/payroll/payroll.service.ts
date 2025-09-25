@@ -44,15 +44,27 @@ export class PayrollServiceImpl implements PayrollInterface {
       .exec();
   }
 
-  async findPayrollByMonthAndYear(month: number, year: number): Promise<Payroll[]> {
+  async findPayrollByMonthAndYear(month: number, year: number, page = 1, limit = 10): Promise<{ data: Payroll[], total: number, page: number, limit: number, totalPages: number }> {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
+    const skip = (page-1) * limit;
+
     const payroll = await this.payrollModel
       .find({
         period: { $gte: startDate, $lt: endDate },
       })
+      .skip(skip)
+      .limit(limit)
       .exec();
-    return throwIfNotFound(payroll, `${month}-${year}`, 'Payrolls') as Payroll[];
+
+    const [data, total] = await Promise.all([
+      payroll,
+      this.payrollModel.countDocuments().exec(),
+    ])
+
+    const totalPages = Math.ceil(total/limit);
+
+    return {data, total, page, limit, totalPages};
   }
 
   // async findAllPayrolls(): Promise<Payroll[]> {
