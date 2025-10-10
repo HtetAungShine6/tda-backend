@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateEmployeeDto } from './dtos/create-employee.dto';
 import { UpdateEmployeeDto } from './dtos/update-employee.dto';
 import { EmployeeInterface } from './interface/employee.interface';
@@ -8,6 +8,8 @@ import { Model } from 'mongoose';
 import { UpdateEmployeeStatusDto } from './dtos/update-employee-status.dto';
 import { throwIfNotFound } from 'src/helpers/throwIfNotFound';
 import { EmployeeRepo } from './repo/employee.repo';
+import { AttendanceInterface } from 'src/attendance/attendance.interface';
+import { EmpStatus } from './enums/emp-status.enum';
 
 @Injectable()
 export class EmployeeServiceImpl implements EmployeeInterface {
@@ -15,10 +17,15 @@ export class EmployeeServiceImpl implements EmployeeInterface {
     @InjectModel(Employee.name)
     private readonly employeeModel: Model<Employee>,
 
-    private readonly employeeRepo: EmployeeRepo
+    private readonly employeeRepo: EmployeeRepo,
+
+    @Inject('AttendanceInterface')
+    private readonly attendanceInterface: AttendanceInterface,
   ) {}
 
-  async createEmployee(createEmployeeDto: CreateEmployeeDto): Promise<Employee> {
+  async createEmployee(
+    createEmployeeDto: CreateEmployeeDto,
+  ): Promise<Employee> {
     return this.employeeRepo.createEmployee(createEmployeeDto);
   }
 
@@ -28,47 +35,100 @@ export class EmployeeServiceImpl implements EmployeeInterface {
   // }
 
   async findEmployeeById(id: string): Promise<Employee> {
-      const employee = await this.employeeRepo.findEmployeeById(id);
-      return throwIfNotFound(employee, id, 'Employee') as Employee;
+    const employee = await this.employeeRepo.findEmployeeById(id);
+    return throwIfNotFound(employee, id, 'Employee') as Employee;
   }
 
   // async findAllEmployees(): Promise<Employee[]> {
   //   return this.employeeModel.find().exec();
   // }
 
-  async findAllEmployees(empName?: string, page = 1, limit = 10): Promise<{ data: Employee[]; total: number; page: number; limit: number, totalPages: number }> {
-  const skip = (page - 1) * limit;
-  const filter: any = {};
+  async findAllEmployees(
+    empName?: string,
+    page = 1,
+    limit = 10,
+  ): Promise<{
+    data: Employee[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
+    const skip = (page - 1) * limit;
+    const filter: any = {};
 
-  if (empName) {
-    filter.name = { $regex: empName, $options: 'i' }; 
+    if (empName) {
+      filter.name = { $regex: empName, $options: 'i' };
+    }
+
+    const [data, total] = await Promise.all([
+      this.employeeModel.find(filter).skip(skip).limit(limit).exec(),
+      this.employeeModel.countDocuments(filter).exec(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return { data, total, page, limit, totalPages };
   }
 
-  const [data, total] = await Promise.all([
-    this.employeeModel.find(filter).skip(skip).limit(limit).exec(),
-    this.employeeModel.countDocuments(filter).exec(),
-  ]);
-
-  const totalPages = Math.ceil(total / limit);
-
-  return { data, total, page, limit, totalPages };
-}
-
-  async updateEmployee(id: string, updateEmployeeDto: UpdateEmployeeDto): Promise<Employee> {
-    const employeeToUpdate = await this.employeeModel.findByIdAndUpdate(id, updateEmployeeDto, {
-      new: true,
-      runValidators: true,
-    }).exec();
+  async updateEmployee(
+    id: string,
+    updateEmployeeDto: UpdateEmployeeDto,
+  ): Promise<Employee> {
+    const employeeToUpdate = await this.employeeModel
+      .findByIdAndUpdate(id, updateEmployeeDto, {
+        new: true,
+        runValidators: true,
+      })
+      .exec();
     return throwIfNotFound(employeeToUpdate, id, 'Employee') as Employee;
   }
 
   async deleteEmployee(id: string): Promise<Employee> {
-    const employeeToDelete = await this.employeeModel.findByIdAndDelete(id).exec();
+    const employeeToDelete = await this.employeeModel
+      .findByIdAndDelete(id)
+      .exec();
     return throwIfNotFound(employeeToDelete, id, 'Employee') as Employee;
   }
 
-  async updateEmployeeStatus(id: string, status: UpdateEmployeeStatusDto): Promise<Employee> {
-    const employeeStatusToUpdate = await this.employeeModel.findByIdAndUpdate(id, status, { new: true }).exec();
-    return throwIfNotFound(employeeStatusToUpdate, id, 'Employee') as Employee;
+  // async updateEmployeeStatus(
+  //   id: string,
+  //   status: UpdateEmployeeStatusDto,
+  // ): Promise<Employee> {
+  //   const employeeStatusToUpdate = await this.employeeModel
+  //     .findByIdAndUpdate(id, status, { new: true })
+  //     .exec();
+  //   return throwIfNotFound(employeeStatusToUpdate, id, 'Employee') as Employee;
+  // }
+
+  async updateEmployeeStatus(
+    id: string,
+    status: UpdateEmployeeStatusDto,
+  ): Promise<Employee> {
+    const employeeStatusToUpdate = await this.employeeModel
+      .findByIdAndUpdate(id, status, { new: true })
+      .exec();
+
+    const employee = throwIfNotFound(
+      employeeStatusToUpdate,
+      id,
+      'Employee',
+    ) as Employee;
+    
+    if (status.status === EmpStatus.ACTIVE) {
+      await this.attendanceInterface.createAttendance({
+        employeeId: employee.id,
+        checkInTime: new Date(), 
+        attendanceStatus: status.status, 
+      });
+    } else if (status.status === EmpStatus.INACTIVE) {
+      await this.attendanceInterface.createAttendance({
+        employeeId: employee.id,
+        checkOutTime: new Date(),
+        attendanceStatus: status.status, 
+      });
+    }
+    
+    return employee;
   }
 }

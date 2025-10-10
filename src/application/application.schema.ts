@@ -1,9 +1,9 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
-import { EmpStatus } from './enums/emp-status.enum';
+import { ApplicantStatus } from './enums/applicant-status.enum';
 
 @Schema()
-export class Employee extends Document {
+export class Application extends Document {
   @Prop({
     type: String,
     required: true,
@@ -26,21 +26,27 @@ export class Employee extends Document {
     type: String,
     required: true,
   })
+  information: string;
+
+  @Prop({
+    type: String,
+    required: true,
+  })
   position: string;
 
   @Prop({
     type: String,
     required: true,
-    enum: Object.values(EmpStatus),
-    default: EmpStatus.INACTIVE,
+    enum: Object.values(ApplicantStatus),
+    default: ApplicantStatus.APPLIED,
   })
-  status: EmpStatus;
+  status: ApplicantStatus;
 
   @Prop({
     type: Date,
     required: true,
   })
-  joinedDate: Date;
+  date: Date;
 }
 
-export const EmployeeSchema = SchemaFactory.createForClass(Employee);
+export const ApplicationSchema = SchemaFactory.createForClass(Application);

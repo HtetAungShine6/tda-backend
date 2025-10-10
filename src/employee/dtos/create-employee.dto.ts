@@ -23,7 +23,7 @@ export class CreateEmployeeDto {
     @IsString()
     position: string;
 
-    @ApiProperty({ enum: EmpStatus, description: 'Employee status', required: true })
+    @ApiProperty({ enum: EmpStatus, description: 'Employee status', required: true, default: EmpStatus.INACTIVE })
     @IsEnum(EmpStatus)
     status: EmpStatus;
 

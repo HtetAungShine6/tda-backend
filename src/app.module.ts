@@ -21,6 +21,8 @@ import { AllExceptionsFilter } from './filters/all-exception.filter';
 import { ExpenseModule } from './expense/expense.module';
 import { IncomeModule } from './income/income.module';
 import { FinanceModule } from './finance/finance.module';
+import { AttendanceModule } from './attendance/attendance.module';
+import { ApplicationModule } from './application/application.module';
 import appConfig from './config/app.config';
 import databaseConfig from './config/database.config';
 
@@ -57,7 +59,9 @@ const ENV = process.env.NODE_ENV;
     PayrollModule,
     ExpenseModule,
     IncomeModule,
-    FinanceModule
+    FinanceModule,
+    AttendanceModule,
+    ApplicationModule
   ],
   controllers: [AppController],
   providers: [
