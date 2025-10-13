@@ -1,7 +1,4 @@
-import {
-  Inject,
-  Injectable,
-} from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { PayrollInterface } from './interface/payroll.interface';
 import { InjectModel } from '@nestjs/mongoose';
 import { Payroll } from './employee.payroll.schema';
@@ -33,7 +30,11 @@ export class PayrollServiceImpl implements PayrollInterface {
     return throwIfNotFound(payrolls, employeeId, 'Payrolls');
   }
 
-  async findPayrollByMonthYearAndEmployeeId(month: number, year: number, employeeId: string): Promise<Payroll | null> {
+  async findPayrollByMonthYearAndEmployeeId(
+    month: number,
+    year: number,
+    employeeId: string,
+  ): Promise<Payroll | null> {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
     return await this.payrollModel
@@ -44,10 +45,21 @@ export class PayrollServiceImpl implements PayrollInterface {
       .exec();
   }
 
-  async findPayrollByMonthAndYear(month: number, year: number, page = 1, limit = 10): Promise<{ data: Payroll[], total: number, page: number, limit: number, totalPages: number }> {
+  async findPayrollByMonthAndYear(
+    month: number,
+    year: number,
+    page = 1,
+    limit = 10,
+  ): Promise<{
+    data: Payroll[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
     const startDate = new Date(year, month - 1, 1);
     const endDate = new Date(year, month, 1);
-    const skip = (page-1) * limit;
+    const skip = (page - 1) * limit;
 
     const payroll = await this.payrollModel
       .find({
@@ -60,18 +72,27 @@ export class PayrollServiceImpl implements PayrollInterface {
     const [data, total] = await Promise.all([
       payroll,
       this.payrollModel.countDocuments().exec(),
-    ])
+    ]);
 
-    const totalPages = Math.ceil(total/limit);
+    const totalPages = Math.ceil(total / limit);
 
-    return {data, total, page, limit, totalPages};
+    return { data, total, page, limit, totalPages };
   }
 
   // async findAllPayrolls(): Promise<Payroll[]> {
   //   return this.payrollModel.find().exec();
   // }
 
-  async findAllPayrolls(page = 1, limit = 10): Promise<{ data: Payroll[]; total: number; page: number; limit: number, totalPages: number }> {
+  async findAllPayrolls(
+    page = 1,
+    limit = 10,
+  ): Promise<{
+    data: Payroll[];
+    total: number;
+    page: number;
+    limit: number;
+    totalPages: number;
+  }> {
     const skip = (page - 1) * limit;
 
     const [data, total] = await Promise.all([
@@ -95,6 +116,29 @@ export class PayrollServiceImpl implements PayrollInterface {
       })
       .exec();
     return throwIfNotFound(payrollToUpdate, id, 'Payroll') as Payroll;
+  }
+
+  async getTotalPayrollAmount(month: number, year: number): Promise<number> {
+    const startDate = new Date(year, month - 1, 1);
+    const endDate = new Date(year, month, 1);
+
+    const result = await this.payrollModel
+      .aggregate([
+        {
+          $match: {
+            period: { $gte: startDate, $lt: endDate },
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalAmount: { $sum: '$totalSalary' },
+          },
+        },
+      ])
+      .exec();
+
+    return result.length > 0 ? result[0].totalAmount : 0;
   }
 }
 

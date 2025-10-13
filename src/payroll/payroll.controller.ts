@@ -72,4 +72,32 @@ export class PayrollController {
   findPayrollByEmployeeId(@Query('employeeId') employeeId: string) {
     return this.payrollInterface.findPayrollByEmployeeId(employeeId);
   }
+
+  @Get('/total-amount')
+  @ApiOperation({ summary: 'Get total payroll amount for a specific month and year' })
+  @ApiQuery({
+    name: 'month',
+    required: true,
+    description: '1 = Jan, 12 = Dec',
+  })
+  @ApiQuery({ name: 'year', required: true, description: 'e.g. 2025' })
+  getTotalPayrollAmount(
+    @Query('month') month: string,
+    @Query('year') year: string,
+  ) {
+    const parsedMonth = parseInt(month, 10);
+    const parsedYear = parseInt(year, 10);
+
+    if (isNaN(parsedMonth) || parsedMonth < 1 || parsedMonth > 12) {
+      throw new BadRequestException(
+        'Invalid "month". Must be between 1 and 12.',
+      );
+    }
+
+    if (isNaN(parsedYear) || parsedYear < 1900) {
+      throw new BadRequestException('Invalid "year".');
+    }
+
+    return this.payrollInterface.getTotalPayrollAmount(parsedMonth, parsedYear);
+  }
 }

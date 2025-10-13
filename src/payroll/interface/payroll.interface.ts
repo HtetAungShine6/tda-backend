@@ -12,4 +12,5 @@ export interface PayrollInterface {
     // findAllPayrolls(): Promise<Payroll[]>;
     findAllPayrolls(page?: number, limit?: number): Promise<{ data: Payroll[]; total: number; page: number; limit: number, totalPages: number }>;
     updatePayroll(id: string, updatePayrollDto: UpdatePayrollDto): Promise<Payroll>;
+    getTotalPayrollAmount(month: number, year: number): Promise<number>;
 }
