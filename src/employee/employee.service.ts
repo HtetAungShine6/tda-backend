@@ -114,21 +114,43 @@ export class EmployeeServiceImpl implements EmployeeInterface {
       id,
       'Employee',
     ) as Employee;
-    
+
     if (status.status === EmpStatus.ACTIVE) {
       await this.attendanceInterface.createAttendance({
         employeeId: employee.id,
-        checkInTime: new Date(), 
-        attendanceStatus: status.status, 
+        checkInTime: new Date(),
+        attendanceStatus: status.status,
       });
     } else if (status.status === EmpStatus.INACTIVE) {
-      await this.attendanceInterface.createAttendance({
-        employeeId: employee.id,
-        checkOutTime: new Date(),
-        attendanceStatus: status.status, 
-      });
+      // await this.attendanceInterface.createAttendance({
+      //   employeeId: employee.id,
+      //   checkOutTime: new Date(),
+      //   attendanceStatus: status.status,
+      // });
+      const allAttendances = await this.attendanceInterface.findAllAttendances();
+      const latestAttendance = allAttendances
+        .filter((a) => a.employeeId === employee.id && !a.checkOutTime)
+        .sort(
+          (a, b) =>
+            (b.checkInTime ? b.checkInTime.getTime() : 0) -
+            (a.checkInTime ? a.checkInTime.getTime() : 0),
+        )[0];
+
+      if (latestAttendance) {
+        await this.attendanceInterface.updateAttendance(
+          String(latestAttendance._id),
+          {
+            checkOutTime: new Date(),
+            attendanceStatus: EmpStatus.INACTIVE,
+          },
+        );
+      } else {
+        console.warn(
+          `No active attendance found for employee ${employee.id} to check out.`,
+        );
+      }
     }
-    
+
     return employee;
   }
 }

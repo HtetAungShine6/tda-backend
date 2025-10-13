@@ -9,9 +9,9 @@ import { Attendance, AttendanceSchema } from './attendance.schema';
     MongooseModule.forFeature([
       {
         name: Attendance.name,
-        schema: AttendanceSchema
-      }
-    ])
+        schema: AttendanceSchema,
+      },
+    ]),
   ],
   controllers: [AttendanceController],
   providers: [
@@ -19,8 +19,8 @@ import { Attendance, AttendanceSchema } from './attendance.schema';
     {
       provide: 'AttendanceInterface',
       useExisting: AttendanceService,
-    }
+    },
   ],
-  exports: [AttendanceService, 'AttendanceInterface']
+  exports: [AttendanceService, 'AttendanceInterface'],
 })
 export class AttendanceModule {}

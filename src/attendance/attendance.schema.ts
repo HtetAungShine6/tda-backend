@@ -12,23 +12,23 @@ export class Attendance extends Document {
 
   @Prop({
     type: Date,
-    required: false
+    required: false,
   })
-  checkInTime?: Date
+  checkInTime?: Date;
 
   @Prop({
     type: Date,
-    required: false
+    required: false,
   })
-  checkOutTime?: Date
+  checkOutTime?: Date;
 
   @Prop({
     type: String,
     required: true,
     enum: Object.values(EmpStatus),
-    default: EmpStatus.ACTIVE
+    default: EmpStatus.ACTIVE,
   })
-  attendanceStatus: EmpStatus
+  attendanceStatus: EmpStatus;
 }
 
 export const AttendanceSchema = SchemaFactory.createForClass(Attendance);
