@@ -16,7 +16,7 @@ export class CreateIncomeDto {
   @IsNotEmpty()
   amount: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   @IsOptional()
   category?: string;

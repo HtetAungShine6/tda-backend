@@ -16,7 +16,7 @@ export class CreateExpenseDto {
   @IsNotEmpty()
   amount: number;
 
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   @IsString()
   @IsOptional()
   category?: string;
