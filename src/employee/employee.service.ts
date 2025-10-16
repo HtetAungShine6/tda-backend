@@ -109,11 +109,15 @@ export class EmployeeServiceImpl implements EmployeeInterface {
       .findByIdAndUpdate(id, status, { new: true })
       .exec();
 
+      console.log('Updated Employee Status:', employeeStatusToUpdate);
+
     const employee = throwIfNotFound(
       employeeStatusToUpdate,
       id,
       'Employee',
     ) as Employee;
+
+    console.log('Employee after status update:', employee);
 
     if (status.status === EmpStatus.ACTIVE) {
       await this.attendanceInterface.createAttendance({
@@ -121,12 +125,9 @@ export class EmployeeServiceImpl implements EmployeeInterface {
         checkInTime: new Date(),
         attendanceStatus: status.status,
       });
+
+      console.log('Attendance record created for employee:', employee.id);
     } else if (status.status === EmpStatus.INACTIVE) {
-      // await this.attendanceInterface.createAttendance({
-      //   employeeId: employee.id,
-      //   checkOutTime: new Date(),
-      //   attendanceStatus: status.status,
-      // });
       const allAttendances = await this.attendanceInterface.findAllAttendances();
       const latestAttendance = allAttendances
         .filter((a) => a.employeeId === employee.id && !a.checkOutTime)
